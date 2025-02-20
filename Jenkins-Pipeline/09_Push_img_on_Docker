@@ -1,0 +1,15 @@
+pipeline{
+    agent any
+
+    stages{
+        stage('Push Image on DockerHub') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker', toolName: 'dockerhub') {
+                        sh "docker push fir3eye/new:latest"
+                    }
+                }
+            }
+        }                     
+    }
+}

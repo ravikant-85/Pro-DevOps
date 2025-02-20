@@ -1,0 +1,15 @@
+pipeline {
+    agent any 
+    tools {
+        jdk 'jdk11'
+        maven 'maven3'
+    }
+    stages{
+        stage("OWASP Dependency Check"){
+             steps{
+                 dependencyCheck additionalArguments: '--scan ./ --format HTML ', odcInstallation: 'DP-Check'
+                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+             }
+        }
+    }
+}

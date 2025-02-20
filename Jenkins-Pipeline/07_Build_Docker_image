@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Docker Build') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker', toolName: 'dockerhub') {
+                        sh "docker build -t new ."
+                        sh "docker tag new fir3eye/new:latest"
+                    }
+                }
+            }
+        }
+    }
+}

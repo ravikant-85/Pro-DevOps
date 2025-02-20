@@ -1,0 +1,21 @@
+pipeline {
+    agent any 
+    tools {
+        jdk 'jdk11'
+        maven 'maven3'
+    }
+    stages{
+        stage("SonarQube Analysis"){
+            steps{
+                script{
+                    withSonarQubeEnv(credentialsId: 'sonar-token') {
+                        sh '''$SCANNER_HOME/bin/sonar-scanner \
+                                -Dsonar.projectName=Blogging-app \
+                                -Dsonar.projectKey=Blogging-app \
+                                -Dsonar.java.binaries=target'''
+                    }
+                }
+            }
+        }
+    }
+}

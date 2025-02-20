@@ -1,0 +1,11 @@
+pipeline{
+    agent any
+    
+    stages{
+        stage('Deploy to container') {
+            steps {
+                sh "docker run -d -p 8090:8080 fir3eye/new:latest" 
+            }
+        }
+    }
+}
