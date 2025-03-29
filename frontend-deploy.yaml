@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vector-frontend
+  labels:
+    app: vector-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vector-frontend
+  template:
+    metadata:
+      labels:
+        app: vector-frontend
+    spec:
+      containers:
+        - name: vector-frontend
+          image: atqv3nqp.c1.bhs5.container-registry.ovh.net/vector-frontend/vector-frontend:0fdaf7c3f25ed5587adaea3b78f9e9b7f38d9130
+          ports:
+            - containerPort: 3000
+          envFrom:
+          - secretRef:
+              name: vector-frontend
+          resources:
+            requests:
+              cpu: "0.5"        # Adjust resource requests based on actual usage
+              memory: "250Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"    
+          command: ["/bin/sh"]
+          args:
+            - -c
+            - |
+              echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" > .env && \
+              echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" > .env.local && \
+              npm run dev
+      imagePullSecrets:
+        - name: ovh-docker-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vector-frontend-service
+spec:
+  selector:
+    app: vector-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vector-frontend
+  labels:
+    namne: vector-frontend
+type: Opaque  
+stringData:
+  NEXT_PUBLIC_API_URL: "https://vector-api.restreamer.in"
