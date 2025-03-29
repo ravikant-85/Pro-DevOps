@@ -1,0 +1,177 @@
+apiVersion: v1
+items:
+- apiVersion: postgresql.cnpg.io/v1
+  kind: Cluster
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"postgresql.cnpg.io/v1","kind":"Cluster","metadata":{"annotations":{},"name":"cluster-postgres-full","namespace":"default"},"spec":{"bootstrap":{"initdb":{"database":"vector","owner":"vector","secret":{"name":"cluster-vector"}}},"description":"vector-replacement-cluster","imageName":"ghcr.io/cloudnative-pg/postgresql:17.4","instances":1,"postgresql":{"parameters":{"auto_explain.log_min_duration":"10s","pg_stat_statements.max":"10000","pg_stat_statements.track":"all","shared_buffers":"256MB"}},"primaryUpdateStrategy":"unsupervised","startDelay":300,"stopDelay":300,"storage":{"size":"1Gi"}}}
+    creationTimestamp: "2025-03-27T11:09:12Z"
+    generation: 2
+    name: cluster-postgres-full
+    namespace: default
+    resourceVersion: "7517026483"
+    uid: 6accee93-a73d-4bf0-b69e-9c8823098afb
+  spec:
+    affinity:
+      podAntiAffinityType: preferred
+    bootstrap:
+      initdb:
+        database: vector
+        encoding: UTF8
+        localeCType: C
+        localeCollate: C
+        owner: vector
+        secret:
+          name: cluster-vector
+    description: vector-replacement-cluster
+    enablePDB: true
+    enableSuperuserAccess: false
+    failoverDelay: 0
+    imageName: ghcr.io/cloudnative-pg/postgresql:17.4
+    instances: 1
+    logLevel: info
+    maxSyncReplicas: 0
+    minSyncReplicas: 0
+    monitoring:
+      customQueriesConfigMap:
+      - key: queries
+        name: cnpg-default-monitoring
+      disableDefaultQueries: false
+      enablePodMonitor: false
+    postgresGID: 26
+    postgresUID: 26
+    postgresql:
+      parameters:
+        archive_mode: "on"
+        archive_timeout: 5min
+        auto_explain.log_min_duration: 10s
+        dynamic_shared_memory_type: posix
+        full_page_writes: "on"
+        log_destination: csvlog
+        log_directory: /controller/log
+        log_filename: postgres
+        log_rotation_age: "0"
+        log_rotation_size: "0"
+        log_truncate_on_rotation: "false"
+        logging_collector: "on"
+        max_parallel_workers: "32"
+        max_replication_slots: "32"
+        max_worker_processes: "32"
+        pg_stat_statements.max: "10000"
+        pg_stat_statements.track: all
+        shared_buffers: 256MB
+        shared_memory_type: mmap
+        shared_preload_libraries: ""
+        ssl_max_protocol_version: TLSv1.3
+        ssl_min_protocol_version: TLSv1.3
+        wal_keep_size: 512MB
+        wal_level: logical
+        wal_log_hints: "on"
+        wal_receiver_timeout: 5s
+        wal_sender_timeout: 5s
+      syncReplicaElectionConstraint:
+        enabled: false
+    primaryUpdateMethod: restart
+    primaryUpdateStrategy: unsupervised
+    replicationSlots:
+      highAvailability:
+        enabled: true
+        slotPrefix: _cnpg_
+      synchronizeReplicas:
+        enabled: true
+      updateInterval: 30
+    resources: {}
+    smartShutdownTimeout: 180
+    startDelay: 300
+    stopDelay: 300
+    storage:
+      resizeInUseVolumes: true
+      size: 1Gi
+    switchoverDelay: 3600
+  status:
+    availableArchitectures:
+    - goArch: amd64
+      hash: 0a8f22a9c14805f67b92f6994d6487da7570929108443d1a70a66b8d47a51b2f
+    - goArch: arm64
+      hash: c8318d0576271cba8bdb120a6500f273038035a9bf97e36c9a367ea0ae3590c0
+    certificates:
+      clientCASecret: cluster-postgres-full-ca
+      expirations:
+        cluster-postgres-full-ca: 2025-06-25 11:04:12 +0000 UTC
+        cluster-postgres-full-replication: 2025-06-25 11:04:12 +0000 UTC
+        cluster-postgres-full-server: 2025-06-25 11:04:12 +0000 UTC
+      replicationTLSSecret: cluster-postgres-full-replication
+      serverAltDNSNames:
+      - cluster-postgres-full-rw
+      - cluster-postgres-full-rw.default
+      - cluster-postgres-full-rw.default.svc
+      - cluster-postgres-full-rw.default.svc.cluster.local
+      - cluster-postgres-full-r
+      - cluster-postgres-full-r.default
+      - cluster-postgres-full-r.default.svc
+      - cluster-postgres-full-r.default.svc.cluster.local
+      - cluster-postgres-full-ro
+      - cluster-postgres-full-ro.default
+      - cluster-postgres-full-ro.default.svc
+      - cluster-postgres-full-ro.default.svc.cluster.local
+      serverCASecret: cluster-postgres-full-ca
+      serverTLSSecret: cluster-postgres-full-server
+    cloudNativePGCommitHash: c56e00d4
+    cloudNativePGOperatorHash: 0a8f22a9c14805f67b92f6994d6487da7570929108443d1a70a66b8d47a51b2f
+    conditions:
+    - lastTransitionTime: "2025-03-27T11:12:22Z"
+      message: Cluster is Ready
+      reason: ClusterIsReady
+      status: "True"
+      type: Ready
+    - lastTransitionTime: "2025-03-27T11:10:05Z"
+      message: Continuous archiving is working
+      reason: ContinuousArchivingSuccess
+      status: "True"
+      type: ContinuousArchiving
+    configMapResourceVersion:
+      metrics:
+        cnpg-default-monitoring: "7517005286"
+    currentPrimary: cluster-postgres-full-1
+    currentPrimaryTimestamp: "2025-03-27T11:10:04.826280Z"
+    healthyPVC:
+    - cluster-postgres-full-1
+    image: ghcr.io/cloudnative-pg/postgresql:17.4
+    instanceNames:
+    - cluster-postgres-full-1
+    instances: 1
+    instancesReportedState:
+      cluster-postgres-full-1:
+        isPrimary: true
+        timeLineID: 1
+    instancesStatus:
+      healthy:
+      - cluster-postgres-full-1
+    latestGeneratedNode: 1
+    managedRolesStatus: {}
+    phase: Cluster in healthy state
+    poolerIntegrations:
+      pgBouncerIntegration: {}
+    pvcCount: 1
+    readService: cluster-postgres-full-r
+    readyInstances: 1
+    secretsResourceVersion:
+      applicationSecretVersion: "7516995933"
+      clientCaSecretVersion: "7517005239"
+      replicationSecretVersion: "7517005241"
+      serverCaSecretVersion: "7517005239"
+      serverSecretVersion: "7517005240"
+    switchReplicaClusterStatus: {}
+    targetPrimary: cluster-postgres-full-1
+    targetPrimaryTimestamp: "2025-03-27T11:09:12.702850Z"
+    timelineID: 1
+    topology:
+      instances:
+        cluster-postgres-full-1: {}
+      nodesUsed: 1
+      successfullyExtracted: true
+    writeService: cluster-postgres-full-rw
+kind: List
+metadata:
+  resourceVersion: ""
