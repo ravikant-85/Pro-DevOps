@@ -1,0 +1,32 @@
+name: Build, Push Vector Image
+
+on:
+  push:
+    branches: [ 'dev' ]
+  workflow_dispatch:
+jobs:
+  build-image:
+    name: Build and Push Image to Registry
+    runs-on: ubuntu-latest
+    environment: Production
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Print the SHA
+        run: |
+          echo "${GITHUB_SHA}"
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.CONTAINER_REGISTRY_URL }}
+          username: ${{ secrets.CONTAINER_REGISTRY_USER }}
+          password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+      - name: Build and push Docker image for app-service
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.CONTAINER_REGISTRY_URL }}/vector-replacement-backend/vector-backend:${{ github.sha }}
