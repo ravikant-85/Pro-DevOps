@@ -1,0 +1,15 @@
+ GIT_SSH_COMMAND='ssh -i /home/ubuntu/vector-replacement/ssh-key' git pull origin dev
+
+docker buildx build -t atqv3nqp.c1.bhs5.container-registry.ovh.net/vector-replacement-backend/vector-backend:v4 .
+
+helm repo add cnpg https://cloudnative-pg.github.io/charts
+
+helm upgrade --install cnpg --namespace cnpg-system --create-namespace cnpg/cloudnative-pg
+
+helm repo add jetstack https://charts.jetstack.io
+
+helm repo update
+
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --set installCRDs=true
+
+kubectl create secret docker-registry ovh-docker-secret --docker-username=CFoytgwXjR --docker-password=2SsL8y051a39746K --docker-server=atqv3nqp.c1.bhs5.container-registry.ovh.net --docker-email=devops@swaraa.dev
