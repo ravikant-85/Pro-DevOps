@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vector-backend
+  labels:
+    app: vector-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vector-backend
+  template:
+    metadata:
+      labels:
+        app: vector-backend
+    spec:
+      containers:
+        - name: vector-backend
+          image: atqv3nqp.c1.bhs5.container-registry.ovh.net/vector-replacement-backend/vector-backend:6d8c95a200c76feba84be4a597ccf0191a2ff243
+          ports:
+            - containerPort: 1999
+          command: ["/bin/sh"]
+          args:
+            - -c
+            - |
+              npx sequelize-cli db:migrate && \
+              npx sequelize-cli db:seed:all;
+              npm run start  
+          envFrom:
+          - secretRef:
+              name: vector-backend
+      imagePullSecrets:
+        - name: ovh-docker-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vector-backend-service
+spec:
+  selector:
+    app: vector-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 1999
+  type: ClusterIP
+---
+
+apiVersion: v1
+data:
+  DB_HOST: Y2x1c3Rlci1w
+  DB_NAME: dmVy
+  DB_PASS: dmVIwMjU=
+  DB_USER: dmVj9y
+  JWT_SECRET: c3dhcmFhdmFzdA==
+  NODE_ENV: cHJvZHVjdGlvbg==
+  PORT: MTk5OQ==
+kind: Secret
+metadata:
+  name: vector-backend
+  namespace: default
+type: Opaque
