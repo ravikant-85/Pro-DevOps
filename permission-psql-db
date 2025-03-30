@@ -1,0 +1,19 @@
+GRANT CONNECT ON DATABASE app TO ravikant;
+GRANT USAGE ON SCHEMA public TO ravikant;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO ravikant;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO ravikant;
+
+
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO ravikant;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT USAGE, SELECT ON SEQUENCES TO ravikant;
+
+
+\z public.users
+
+
+ALTER ROLE ravikant SUPERUSER;
+
+
+
+
+PGPASSWORD="@1234ravi" pg_dump -U ravikant -h 127.0.0.1 -d app > app_backup.sql
