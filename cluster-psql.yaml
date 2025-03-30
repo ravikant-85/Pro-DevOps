@@ -1,42 +1,24 @@
+# File: postgres-cluster.yaml
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: cluster-example-full
+  name: my-postgres-cluster
+  namespace: postgres
 spec:
-  description: "Example of cluster"
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.4
-  # imagePullSecret is only required if the images are located in a private registry
-  # imagePullSecrets:
-  #   - name: private_registry_access
-  instances: 3
-  startDelay: 300
-  stopDelay: 300
+  instances: 3                          # Number of replicas
   primaryUpdateStrategy: unsupervised
- 
+
+  # PostgreSQL Version
   postgresql:
-    parameters:
-      shared_buffers: 256MB
-      pg_stat_statements.max: '10000'
-      pg_stat_statements.track: all
-      auto_explain.log_min_duration: '10s'
-    pg_hba:
-      - host all all 10.244.0.0/16 md5
- 
+    version: 14
+
+  # Bootstrap Using Secret Only
   bootstrap:
     initdb:
-      database: app
-      owner: app
       secret:
-        name: cluster-example-app-user
-    # Alternative bootstrap method: start from a backup
-    #recovery:
-    #  backup:
-    #    name: backup-example
- 
-  enableSuperuserAccess: true
-  superuserSecret:
-    name: cluster-example-superuser
- 
+        name: my-postgres-secret       # Referencing Secret for DB Details Only
+
+  # Storage Configuration
   storage:
-    storageClass: standard
-    size: 1Gi
+    size: 10Gi
+    storageClass: local-path
