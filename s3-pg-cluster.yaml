@@ -1,0 +1,33 @@
+# Save this as postgres-cluster.yaml
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: my-postgres-cluster
+  namespace: postgres
+spec:
+  instances: 3                       # Number of replicas for HA
+  primaryUpdateStrategy: unsupervised
+
+  # PostgreSQL Configuration
+  postgresql:
+    version: 14                      # PostgreSQL Version
+    parameters:
+      shared_buffers: "256MB"
+      max_connections: "100"
+
+  # Storage for Data
+  storage:
+    size: 10Gi                       # Persistent Volume Size
+    storageClass: local-path         # Storage Class for Hetzner/RKE2
+
+  # Backup Configuration (Optional)
+  backup:
+    barmanObjectStore:
+      destinationPath: "s3://my-pg-backup"
+      s3Credentials:
+        accessKeyId:
+          name: s3-credentials
+          key: ACCESS_KEY
+        secretAccessKey:
+          name: s3-credentials
+          key: SECRET_KEY
