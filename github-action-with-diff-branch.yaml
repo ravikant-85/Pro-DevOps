@@ -1,0 +1,96 @@
+name: Node CI
+on:
+    push:
+        branches:
+            - 'main'
+            - 'staging'
+            - 'dev'
+            - 'single-env'
+jobs:
+    main-build:
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/main'
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  ref: main
+            - name: Deploy to Server
+              uses: easingthemes/ssh-deploy@main
+              env:
+                  SSH_PRIVATE_KEY: ${{ secrets.PROD_AWS_KEY }}
+                  ARGS: '-av'
+                  SOURCE: './'
+                  REMOTE_HOST: ${{ secrets.PROD_AWS_HOST }}
+                  REMOTE_USER: ${{ secrets.PROD_AWS_USER }}
+                  TARGET: '~/optalert/api/'
+                  EXCLUDE: '/dist/, /node_modules/, .git/, /__mock__/, /__test__/, /docker/, /dockerfiles/'
+            - name: Executing multiple commands
+              uses: appleboy/ssh-action@v0.1.6
+              with:
+                  host: ${{ secrets.PROD_AWS_HOST }}
+                  username: ${{ secrets.PROD_AWS_USER }}
+                  key: ${{ secrets.PROD_AWS_KEY }}
+                  script: |
+                      export NVM_DIR=~/.nvm
+                      source ~/.nvm/nvm.sh
+                      cd ~/optalert/api/ ; pnpm install ; pnpm build ; pm2 delete optalert-api-production ; npm run deploy:production ; pm2 save
+
+    # staging-build:
+    #     runs-on: ubuntu-latest
+    #     if: github.ref == 'refs/heads/staging'
+    #     steps:
+    #         - uses: actions/checkout@v3
+    #           with:
+    #               ref: staging
+    #         - name: Deploy to Server
+    #           uses: easingthemes/ssh-deploy@main
+    #           env:
+    #               SSH_PRIVATE_KEY: ${{ secrets.STAGING_AWS_KEY }}
+    #               ARGS: '-av'
+    #               SOURCE: './'
+    #               REMOTE_HOST: ${{ secrets.STAGING_AWS_HOST }}
+    #               REMOTE_USER: ${{ secrets.STAGING_AWS_USER }}
+    #               TARGET: '~/optalert/api/'
+    #               EXCLUDE: '/dist/, /node_modules/, .git/, /__mock__/, /__test__/, /docker/, /dockerfiles/'
+    #         - name: Executing multiple commands
+    #           uses: appleboy/ssh-action@v0.1.6
+    #           with:
+    #               host: ${{ secrets.STAGING_AWS_HOST }}
+    #               username: ${{ secrets.STAGING_AWS_USER }}
+    #               key: ${{ secrets.STAGING_AWS_KEY }}
+    #               script: |
+    #                   export NVM_DIR=~/.nvm
+    #                   source ~/.nvm/nvm.sh
+    #                   cd ~/optalert/api/ ; pnpm install ; pnpm build ; pm2 delete optalert-api-staging ; npm run deploy:staging ; pm2 save
+    dev-build:
+        runs-on: self-hosted #ubuntu-latest
+        if: github.ref == 'refs/heads/single-env'
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  ref: single-env
+            - name: setup-envs
+              env:
+                  ENV_STAGING: ${{ secrets.ENV_STAGING }}
+              run: |
+                  echo "$ENV_STAGING" > .env
+            - name: Deploy to Server
+              uses: easingthemes/ssh-deploy@main
+              env:
+                  SSH_PRIVATE_KEY: ${{ secrets.DEVELOPMENT_AWS_KEY }}
+                  ARGS: '-av --delete'
+                  SOURCE: './'
+                  REMOTE_HOST: ${{ secrets.DEVELOPMENT_AWS_HOST }}
+                  REMOTE_USER: ${{ secrets.DEVELOPMENT_AWS_USER }}
+                  TARGET: '~/optalert/api/'
+                  EXCLUDE: '/dist/, /node_modules/, .git/, /__mock__/, /__test__/, /docker/, /dockerfiles/'
+            - name: Executing multiple commands
+              uses: appleboy/ssh-action@v0.1.6
+              with:
+                  host: ${{ secrets.DEVELOPMENT_AWS_HOST }}
+                  username: ${{ secrets.DEVELOPMENT_AWS_USER }}
+                  key: ${{ secrets.DEVELOPMENT_AWS_KEY }}
+                  script: |
+                      export NVM_DIR=~/.nvm
+                      source ~/.nvm/nvm.sh
+                      cd ~/optalert/api/ ; pnpm install ; pnpm build ; pm2 delete optalert-api-development ; pm2 start npm --name optalert-api-development -- run deploy ; pm2 save
