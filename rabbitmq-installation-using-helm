@@ -1,0 +1,41 @@
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+helm install rabbitmq bitnami/rabbitmq \
+  --set auth.username=admin \
+  --set auth.password=strongpassword \
+  --set auth.erlangCookie=secretcookie \
+  --set replicaCount=2 \
+  --set persistence.enabled=true \
+  --set metrics.enabled=true
+kubectl port-forward svc/rabbitmq 15672:15672
+kubectl port-forward svc/rabbitmq 15672:15672
+
+-----------------------------------------------------------------
+
+auth:
+  username: admin
+  password: strongpassword
+  erlangCookie: supersecretcookie
+
+replicaCount: 3
+
+persistence:
+  enabled: true
+  size: 10Gi
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 250m
+  limits:
+    memory: 512Mi
+    cpu: 500m
+
+service:
+  type: LoadBalancer
+
+metrics:
+  enabled: true
+
+-----------------------------------------------------------------
+helm install rabbitmq bitnami/rabbitmq -f values.yaml
