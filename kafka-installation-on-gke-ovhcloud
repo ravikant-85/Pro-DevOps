@@ -1,0 +1,32 @@
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+helm install kafka bitnami/kafka \
+  --namespace kafka \
+  --set replicaCount=3 \
+  --set auth.enabled=true \
+  --set auth.sasl.mechanisms=plain \
+  --set auth.sasl.plain.username=admin \
+  --set auth.sasl.plain.password=strongpassword \
+  --set zookeeper.auth.enabled=false \
+  --set persistence.enabled=true
+
+helm upgrade kafka bitnami/kafka \
+  --namespace kafka \
+  --set service.type=LoadBalancer \
+  --set externalAccess.enabled=true \
+  --set externalAccess.service.type=LoadBalancer \
+  --set externalAccess.autoDiscovery.enabled=true
+
+kubectl get svc -n kafka
+
+persistence:
+  storageClass: "premium-rwo"  # For GKE
+  size: 10Gi
+
+kubectl run kafka-client --rm -i --tty --restart='Never' \
+  --namespace kafka \
+  --image docker.io/bitnami/kafka:latest \
+  -- bash
+
+kafka-topics.sh --bootstrap-server kafka:9092 --create --topic test --partitions 1 --replication-factor 1
