@@ -7,3 +7,10 @@ helm install ingress-nginx ingress-nginx/ingress-nginx \
   --set controller.publishService.enabled=true
 
 kubectl get svc -n ingress-nginx
+
+
+---------------------------------------------------------------------
+nginx-ingress controller
+
+helm repo add nginx-stable https://helm.nginx.com/stable
+helm install nginx-ingress nginx-stable/nginx-ingress
