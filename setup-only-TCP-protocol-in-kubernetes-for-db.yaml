@@ -1,0 +1,7 @@
+helm install traefik traefik/traefik \
+  --set ports.mssql.port=1433 \
+  --set ports.mssql.expose=true \
+  --set ports.mssql.protocol=TCP \
+  --set ports.postgres.port=5432 \
+  --set ports.postgres.expose=true \
+  --set ports.postgres.protocol=TCP
