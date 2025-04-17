@@ -1,0 +1,78 @@
+add the storageClass in bare matel k8s --> kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
+kubectl get sc
+kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+----------------------------------------------------------------------------------------------------------------------------------
+############# create cluster-pg.yaml
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: my-postgres
+  namespace: default
+spec:
+  instances: 1
+
+  storage:
+    storageClass: local-path
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+
+  bootstrap:
+    initdb:
+      database: ravikant
+      secret:
+        name: psql-secret
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: psql-secret
+  namespace: default
+type: Opaque
+stringData:
+  username: ravikant
+  password: ravikant#2025
+------------------------------------------------------------------------------------------------------------------------------------------------
+kubectl get po
+kubectl get svc
+kubectl pv
+kubectl pvc
+kubectl secret
+kubectl get pv -o yaml
+kubectl edit svc my-postgres-rw --> change ClusterIP --> LoadBalancer
+kubectl get svc
+psql -h 13.233.114.218 -U ravikant -p 32001 -d ravikant
+------------------------------------------------------------------------------------------------------------------------------------------------
+################# create configMap for route traffic to service with LB
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-pg-services
+  namespace: kube-system
+data:
+  "5432": "default/my-postgres-rw:5432"
+------------------------------------------------------------------------------------------------------------------------------------------------
+########### if you use traefik then it will automatically expose otherwise you need to changes in nginx ingress controller tcp-service-configmap-->
+ spec:
+      containers:
+      - args:
+        - /nginx-ingress-controller
+        - --tcp-services-configmap=kube-system/tcp-services
+        - --election-id=rke2-ingress-nginx-leader
+        - --controller-class=k8s.io/ingress-nginx
+        - --ingress-class=nginx
+        - --configmap=$(POD_NAMESPACE)/rke2-ingress-nginx-controller
+        - --validating-webhook=:8443
+        - --validating-webhook-certificate=/usr/local/certificates/cert
+        - --validating-webhook-key=/usr/local/certificates/key
+        - --watch-ingress-without-class=true
+------------------------------------------------------------------------------------------------------------------------------------------------
+kubectl get cm -A
+psql -h psql.techcode.cfd -U ravikant -p 5432
+psql -h psql.techcode.cfd -U ravikant
+------------------------------------------------------------------------------------------------------------------------------------------------
+you can connect with your dbs using domain..!!!!!!!
