@@ -1,2 +1,68 @@
 INSERT INTO transactions_new
 SELECT * FROM transactions;
+
+RENAME TABLE transactions TO transactions_old;
+RENAME TABLE transactions_new TO transactions;
+
+PARTITION BY HASH(YEAR(transaction_date))
+PARTITIONS 10;
+
+INSERT INTO transactions_partitioned
+SELECT * FROM transactions WHERE transaction_date < CURDATE();
+
+____________________________________________________________________________________________________________________________________________________
+RENAME TABLE transactions TO transactions_old,
+              transactions_partitioned TO transactions;
+____________________________________________________________________________________________________________________________________________________
+
+CREATE TABLE transactions_archive (
+    id BIGINT NOT NULL,
+    user_id INT,
+    amount DECIMAL(10,2),
+    transaction_date DATE NOT NULL,
+    PRIMARY KEY(id, transaction_date)
+)
+PARTITION BY RANGE (YEAR(transaction_date)*100 + MONTH(transaction_date)) (
+    PARTITION p202301 VALUES LESS THAN (202302),
+    PARTITION p202302 VALUES LESS THAN (202303),
+    PARTITION p202303 VALUES LESS THAN (202304),
+    PARTITION p202304 VALUES LESS THAN (202305),
+    PARTITION p202305 VALUES LESS THAN (202306),
+    PARTITION p202306 VALUES LESS THAN (202307),
+    PARTITION p202307 VALUES LESS THAN (202308),
+    PARTITION p202308 VALUES LESS THAN (202309),
+    PARTITION p202309 VALUES LESS THAN (202310),
+    PARTITION p202310 VALUES LESS THAN (202311),
+    PARTITION p202311 VALUES LESS THAN (202312),
+    PARTITION p202312 VALUES LESS THAN (202401),
+    PARTITION pmax VALUES LESS THAN MAXVALUE
+);
+___________________________________________________________________________________________________________________________________________________
+
+INSERT INTO transactions_archive
+SELECT * FROM transactions
+WHERE transaction_date < '2024-12-01'
+LIMIT 10000;
+__________________________________________________________________________________________________________________________________________________
+
+CREATE TABLE transactions_new LIKE transactions;
+
+-- Ab usme sirf last 5 months ka data daal:
+INSERT INTO transactions_new
+SELECT * FROM transactions
+WHERE transaction_date >= '2024-12-01';
+_________________________________________________________________________________________________________________________________________________
+
+RENAME TABLE transactions TO transactions_old,
+             transactions_new TO transactions;
+_________________________________________________________________________________________________________________________________________________
+
+CREATE OR REPLACE VIEW transactions_view AS
+SELECT * FROM transactions
+UNION ALL
+SELECT * FROM transactions_old;
+_________________________________________________________________________________________________________________________________________________
+SELECT * FROM transactions_view WHERE user_id = 123 AND transaction_date >= '2024-01-01';
+_________________________________________________________________________________________________________________________________________________
+ALTER TABLE transactions_old READ ONLY;
+_________________________________________________________________________________________________________________________________________________
