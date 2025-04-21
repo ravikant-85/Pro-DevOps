@@ -1,0 +1,2 @@
+INSERT INTO transactions_new
+SELECT * FROM transactions;
