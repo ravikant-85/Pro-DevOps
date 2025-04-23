@@ -1,2 +1,15 @@
+systemctl stop mysqld
 sudo -u mysql mysqld --skip-grant-tables --skip-networking &
 mysql -u root
+
+
+
+------------------------------------------------------------------------------------------------
+CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'newpassword@123';
+GRANT ALL PRIVILEGES ON *.* TO 'newuser'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON your_db_name.* TO 'newuser'@'localhost';
+FLUSH PRIVILEGES;
+exit;
+pkill mysqld
+systemctl restart mysqld
+mysql -u root -p
