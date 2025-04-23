@@ -1,0 +1,138 @@
+  cat nginx/vhost.conf 
+log_format cms_lf escape=json
+  '{'
+    '"request_time":"$request_time",'
+    '"local_time": "$time_local",'
+    '"client":"$remote_addr",'
+    '"method":"$request_method",'
+    '"request":"$request",'
+    '"request_length":"$request_length",'
+    '"status":"$status",'
+    '"bytes_sent":"$bytes_sent",'
+    '"body_bytes_sent":"$body_bytes_sent",'
+    '"referer":"$http_referer",'
+    '"user_agent":"$http_user_agent",'
+    '"upstream_addr":"$upstream_addr",'
+    '"upstream_status":"$upstream_status",'
+    '"upstream_response_time":"$upstream_response_time",'
+    '"upstream_connect_time":"$upstream_connect_time",'
+    '"upstream_header_time":"$upstream_header_time"'
+  '}';
+server {
+        listen 80;
+        server_name {{SERVER_NAME}};
+
+        server_tokens off;
+
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+        add_header X-Frame-Options "SAMEORIGIN";
+        add_header X-XSS-Protection "1; mode=block";
+        add_header X-Content-Type-Options nosniff;
+        # only
+        add_header Referrer-Policy "same-origin";
+        add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), autoplay=()" always;
+
+        # normalise ip address using x-forwarded-for
+        # applies only if the origin traffic comes from 10.0.X.X
+        real_ip_header X-Forwarded-For;
+        set_real_ip_from 10.0.0.0/8;
+
+        root /var/www/cms/dist;
+
+        access_log /var/log/nginx/{{SERVER_LOGS}}/access.log cms_lf;
+        error_log /var/log/nginx/{{SERVER_LOGS}}/error.log error;
+
+        index index.html;
+
+        location / {
+                try_files $uri $uri/ /index.html;
+        }
+}
+root@ip-10-0-2-81:/var/www/cms/codedeploy#  ls
+nginx  scripts
+root@ip-10-0-2-81:/var/www/cms/codedeploy#  cd scripts/
+root@ip-10-0-2-81:/var/www/cms/codedeploy/scripts#  ls
+change_permissions.sh  install_env.sh  install_vhost.sh  start_server.sh  stop_server.sh
+--------------------------------------------------------------------------------------------------
+root@ip-10-0-2-81:/var/www/cms/codedeploy/scripts#  cat change_permissions.sh 
+#!/bin/bash
+chown -R www-data:www-data /var/www/cms/
+--------------------------------------------------------------------------------------------------
+root@ip-10-0-2-81:/var/www/cms/codedeploy/scripts#  cat install_env.sh 
+#!/bin/bash
+
+ENV_PARAMETER_NAME=env-prod
+
+if [[ "$DEPLOYMENT_GROUP_NAME" == *-dev-asg ]]
+then
+    # this only executes when only in development asg
+    ENV_PARAMETER_NAME=env-dev
+fi
+
+pwd
+aws --region=ap-southeast-2 ssm get-parameter --name /$ENV_PARAMETER_NAME --with-decryption --output text --query "Parameter.Value" > /var/www/cms/.env
+--------------------------------------------------------------------------------------------------
+root@ip-10-0-2-81:/var/www/cms/codedeploy/scripts#  cat install_vhost.sh 
+#!/bin/bash
+
+FILENAME=cms.conf
+SERVER_NAME=cms.managemyreno.au
+SERVER_LOGS=cmsproduction
+
+if [[ "$DEPLOYMENT_GROUP_NAME" == *-dev-asg ]]
+then
+    # this only executes when only in development asg
+    SERVER_NAME=cms.dev.managemyreno.co
+    SERVER_LOGS=cmsdevelop
+fi
+
+
+cp /var/www/cms/codedeploy/nginx/vhost.conf /etc/nginx/sites-available/$FILENAME
+
+ln -sf /etc/nginx/sites-available/$FILENAME /etc/nginx/sites-enabled/$FILENAME
+
+sed -i -e "s/{{SERVER_NAME}}/$SERVER_NAME/g" /etc/nginx/sites-available/$FILENAME
+
+sed -i -e "s/{{SERVER_LOGS}}/$SERVER_LOGS/g" /etc/nginx/sites-available/$FILENAME
+
+mkdir -p /var/log/nginx/${SERVER_LOGS}/
+--------------------------------------------------------------------------------------------------
+root@ip-10-0-2-81:/var/www/cms/codedeploy/scripts#  cat start_server.sh 
+#!/bin/bash
+
+sudo service nginx restart
+--------------------------------------------------------------------------------------------------
+root@ip-10-0-2-81:/var/www/cms/codedeploy/scripts#  cat stop_server.sh 
+#!/bin/bash
+sudo service nginx stop
+--------------------------------------------------------------------------------------------------
+root@ip-10-0-2-81:/var/www/cms/codedeploy/scripts#  cd ../..
+root@ip-10-0-2-81:/var/www/cms#  ls
+appspec.yml  codedeploy  dist
+--------------------------------------------------------------------------------------------------
+root@ip-10-0-2-81:/var/www/cms#  cat appspec.yml 
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/cms
+file_exists_behavior: OVERWRITE
+hooks:
+  AfterInstall:
+    - location: codedeploy/scripts/install_vhost.sh
+      timeout: 30
+      runas: root
+    - location: codedeploy/scripts/install_env.sh
+      timeout: 30
+      runas: root
+    - location: codedeploy/scripts/change_permissions.sh
+      timeout: 30
+      runas: root
+  ApplicationStart:
+    - location: codedeploy/scripts/start_server.sh
+      timeout: 60
+      runas: root
+  ApplicationStop:
+    - location: codedeploy/scripts/stop_server.sh
+      timeout: 60
+      runas: rootroot@ip-10-0-2-81:/var/www/cms# 
