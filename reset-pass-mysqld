@@ -1,0 +1,2 @@
+sudo -u mysql mysqld --skip-grant-tables --skip-networking &
+mysql -u root
