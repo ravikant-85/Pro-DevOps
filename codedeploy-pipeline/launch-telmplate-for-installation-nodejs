@@ -1,0 +1,8 @@
+#!/bin/bash
+yum update -y
+curl -sL https://rpm.nodesource.com/setup_18.x | bash -
+yum install -y nodejs git
+git clone https://github.com/yourname/yourrepo.git
+cd yourrepo
+npm install
+npm start
