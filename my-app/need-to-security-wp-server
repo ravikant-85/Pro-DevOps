@@ -1,0 +1,109 @@
+### 🔐 8.1 Secure Temporary and Cache Directories
+
+#### 🛑 A. **Set noexec on `/tmp`**
+**Problem**: Hackers /tmp ya cache jaise folders mein malicious PHP script upload kar ke usse run karne ki koshish karte hain.
+
+**Solution**:
+- `/tmp` folder mein koi bhi executable file run na ho, iske liye noexec set karo.
+
+**How?**
+```bash
+mount -o remount,noexec,nosuid /tmp
+```
+
+Permanent karna ho toh:
+```bash
+sudo nano /etc/fstab
+```
+Aur line add karo:
+```
+tmpfs /tmp tmpfs defaults,noexec,nosuid 0 0
+```
+
+> ⚠️ **Important**: Yeh change karne ke baad ya toh system reboot karna padega ya `mount -o remount` se reload.
+
+---
+
+#### 🔐 B. **Block Web Access to `/cache`, `/tmp`, `/analog`**
+
+Agar yeh folders webroot ke andar hain (jaise `/home/site/tmp/cache`) toh unme `.htaccess` daal kar web access block karo:
+
+```apache
+# .htaccess inside /cache or /tmp
+<FilesMatch "\.(php|php5|phtml)$">
+   Deny from all
+</FilesMatch>
+
+Order Allow,Deny
+Deny from all
+```
+
+**NGINX me**:
+```nginx
+location ~* /cache/.*\.(php|phtml)$ {
+   deny all;
+}
+```
+
+---
+
+#### 🔐 C. **Set File & Directory Permissions Properly**
+
+```bash
+find /path/to/wordpress/ -type d -exec chmod 755 {} \;
+find /path/to/wordpress/ -type f -exec chmod 644 {} \;
+
+chmod 600 /path/to/wordpress/wp-config.php
+```
+
+> Make sure:
+- Koi directory 777 na ho
+- `uploads`, `cache`, `tmp` folders mein PHP execute na ho.
+
+---
+
+### 🛑 8.2 Disable PHP Execution in Uploads/Cache
+
+Upload folder mein PHP file kaam nahi karni chahiye — prevent karo:
+
+`.htaccess` add karo:
+```apache
+<Files *.php>
+  deny from all
+</Files>
+
+# Optional:
+php_flag engine off
+```
+
+Yeh files `wp-content/uploads/`, `wp-content/cache/` mein daal do.
+
+---
+
+### 🛡️ 8.3 Web Application Firewall (WAF)
+
+Agar Cloudflare, Sucuri, ya AWS WAF use nahi kar rahe:
+- Zarur lagao. Yeh **malicious traffic ko server tak pahuchne se pehle block kar deta hai**.
+- Tum custom rules bhi bana sakte ho jaise:
+  - SQL Injection detection
+  - Login page pe rate limiting
+  - Country/IP-based blocking
+
+---
+
+### 🚫 8.4 Disable Directory Indexing
+
+Apache ya NGINX se ensure karo ki koi bhi directory listing publicly na dikhe.
+
+`.htaccess` mein yeh line add karo:
+```
+Options -Indexes
+```
+
+---
+
+### ✅ Ready-To-Use Checklist chahiye?
+
+Bhai agar tum chaho toh main tumhare liye ek **WordPress server hardening checklist** bhi bana sakta hoon — jo tum internal audit ya compliance ke liye use kar sakte ho. Just bol do.
+
+Ab batao, tumhe inme se kaunsa step apply karne mein help chahiye pehle? Main one-by-one command ke sath karwa dunga.
