@@ -95,6 +95,34 @@ ________________________________________________________________________________
 
 SELECT *  FROM INFORMATION_SCHEMA.PARTITIONS  WHERE TABLE_NAME = 'recharges_partitioned';
 SHOW COLUMNS FROM recharges_partitioned;
+_____________________________________________________________________________________________________________________________
+
+ SELECT MAX(id) AS max_id
+ FROM recharges
+ WHERE FROM_UNIXTIME(request_time) >= '2020-01-01'
+   AND FROM_UNIXTIME(request_time) <  '2020-05-01';
+_____________________________________________________________________________________________________________________________
+
+INSERT INTO recharges_partitioned (...)  -- same columns
+SELECT ...  -- same SELECT
+FROM recharges
+WHERE id > 10000 AND id <= 20000
+  AND FROM_UNIXTIME(request_time) >= '2020-01-01'
+  AND FROM_UNIXTIME(request_time) <  '2020-05-01';
+  -----------------------------------------------------------------
+  -- Repeat and update id range
+WHERE id > 20000 AND id <= 30000
+---------------------------------------------------------------------
+-- If your max id is 42000
+WHERE id > 30000 AND id <= 42000
+-----------------------------------------------------------------------------------------
+_____________________________________________________________________________________________________________________________
+
+SELECT COUNT(*) FROM recharges_partitioned
+WHERE partition_key = 20200101
+  AND FROM_UNIXTIME(request_time) >= '2020-01-01'
+  AND FROM_UNIXTIME(request_time) <  '2020-05-01';
+
 ______________________________________________________________________________________________________________________________
 
 INSERT INTO recharges_partitioned (
