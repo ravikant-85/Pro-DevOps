@@ -1,0 +1,18 @@
+SELECT
+    YEAR(FROM_UNIXTIME(request_time)) AS year,
+    COUNT(*) AS number_of_records
+FROM
+    recharges
+GROUP BY
+    YEAR(FROM_UNIXTIME(request_time))
+ORDER BY
+    year DESC;
+______________________________________________________________________________________________________________________________
+
+SELECT
+    MIN(FROM_UNIXTIME(request_time)) AS earliest_record_time,
+    MONTH(MIN(FROM_UNIXTIME(request_time))) AS start_month
+FROM
+    recharges
+WHERE
+    YEAR(FROM_UNIXTIME(request_time)) = 2020;
