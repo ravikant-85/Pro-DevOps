@@ -93,6 +93,15 @@ PARTITION BY RANGE (partition_key) (
 );
 _______________________________________________________________________________________________________________________________
 
+SELECT 
+  PARTITION_NAME,
+  TABLE_ROWS
+FROM INFORMATION_SCHEMA.PARTITIONS
+WHERE TABLE_NAME = 'recharges_partitioned'
+  AND TABLE_SCHEMA = 'dedicate_paybyapis';
+
+______________________________________________________________________________________________________________________________
+
 SELECT *  FROM INFORMATION_SCHEMA.PARTITIONS  WHERE TABLE_NAME = 'recharges_partitioned';
 SHOW COLUMNS FROM recharges_partitioned;
 _____________________________________________________________________________________________________________________________
