@@ -111,10 +111,17 @@ SELECT
   master_distributor_commission, distributor_commission,
   retailer_commission, user_commission, order_id, recharge_type,
   status, request_time, user_id, user_type, recharge_from,
-  referral_bonus, 20200401
+  referral_bonus, 20200101 -- ✅ use lower partition_key than 20200401
 FROM recharges
 WHERE FROM_UNIXTIME(request_time) >= '2020-01-01'
   AND FROM_UNIXTIME(request_time) <  '2020-05-01';
+_____________________________________________________________________________________________________________________________
+
+SELECT * FROM INFORMATION_SCHEMA.PARTITIONS
+WHERE TABLE_NAME = 'recharges_partitioned'
+  AND TABLE_SCHEMA = 'dedicate_paybyapis'
+  AND PARTITION_NAME = 'p_2020_jan_apr';
+
   ___________________________________________________________________________________________________________________________
 
   SELECT 
