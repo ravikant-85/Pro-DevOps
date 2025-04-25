@@ -125,3 +125,10 @@ FROM recharges_partitioned
 WHERE partition_key = 20200401
   AND FROM_UNIXTIME(request_time) >= '2020-01-01'
   AND FROM_UNIXTIME(request_time) < '2020-05-01';
+_____________________________________________________________________________________________________________________________
+
+SELECT COUNT(*) AS total_rows FROM recharges WHERE FROM_UNIXTIME(request_time) >= '2020-01-01' AND FROM_UNIXTIME(request_time) < '2020-05-01';
+______________________________________________________________________________________________________________________________
+
+SELECT COUNT(*) AS inserted_rows FROM recharges_partitioned WHERE partition_key = 20200401 AND FROM_UNIXTIME(request_time) >= '2020-01-01' AND FROM_UNIXTIME(request_time) < '2020-05-01';
+SELECT CEIL(COUNT(*) / 10000) AS total_batches FROM recharges WHERE FROM_UNIXTIME(request_time) >= '2020-01-01' AND FROM_UNIXTIME(request_time) < '2020-05-01';
