@@ -16,3 +16,112 @@ FROM
     recharges
 WHERE
     YEAR(FROM_UNIXTIME(request_time)) = 2020;
+_______________________________________________________________________________________________________________________________
+
+CREATE TABLE recharges_partitioned (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    number VARCHAR(50) NOT NULL,
+    field2 VARCHAR(255) DEFAULT NULL,
+    field3 VARCHAR(255) DEFAULT NULL,
+    field1 VARCHAR(255) DEFAULT NULL,
+    operator_id INT NOT NULL,
+    circle_id INT NOT NULL DEFAULT 0,
+    api3 INT DEFAULT NULL,
+    api4 INT DEFAULT NULL,
+    api5 INT DEFAULT NULL,
+    backup_api INT DEFAULT NULL,
+    backup_commission DECIMAL(10,3) NOT NULL DEFAULT 0.000,
+    is_backup INT NOT NULL DEFAULT 0,
+    amount DOUBLE NOT NULL,
+    final_charge DECIMAL(10,3) DEFAULT NULL,
+    api_id INT DEFAULT NULL,
+    last_hit_on INT NOT NULL DEFAULT 0,
+    last_hit_id BIGINT NOT NULL DEFAULT 0,
+    api1 INT DEFAULT NULL,
+    api2 INT DEFAULT NULL,
+    admin_commission DECIMAL(10,3) NOT NULL DEFAULT 0.000,
+    master_distributor_commission DECIMAL(10,3) NOT NULL DEFAULT 0.000,
+    distributor_commission DECIMAL(10,3) NOT NULL DEFAULT 0.000,
+    retailer_commission DECIMAL(10,3) NOT NULL DEFAULT 0.000,
+    user_commission DECIMAL(10,3) NOT NULL DEFAULT 0.000,
+    retailer_closing_bl DECIMAL(15,3) DEFAULT NULL,
+    distributor_closing_bl DECIMAL(15,3) DEFAULT NULL,
+    master_closing_bl DECIMAL(15,3) DEFAULT NULL,
+    admin_closing_bl DECIMAL(15,3) DEFAULT NULL,
+    user_closing_bl DECIMAL(15,3) DEFAULT NULL,
+    api_closing_bl DECIMAL(15,3) DEFAULT NULL,
+    api_r_offer FLOAT DEFAULT NULL,
+    user_r_offer FLOAT DEFAULT NULL,
+    order_id VARCHAR(255) NOT NULL,
+    recharge_type VARCHAR(30) NOT NULL,
+    operator_ref VARCHAR(255) DEFAULT NULL,
+    status ENUM('PENDING','SUCCESS','FAILED','REFUNDED') NOT NULL DEFAULT 'PENDING',
+    request_time BIGINT NOT NULL,
+    response_time BIGINT DEFAULT NULL,
+    user_id INT NOT NULL,
+    distributor_id INT DEFAULT NULL,
+    master_id INT DEFAULT NULL,
+    user_type VARCHAR(50) NOT NULL,
+    response_message VARCHAR(255) DEFAULT NULL,
+    mobile BIGINT DEFAULT NULL,
+    expiry VARCHAR(255) DEFAULT NULL,
+    dispute_request_count INT DEFAULT 0,
+    ip VARCHAR(100) DEFAULT NULL,
+    recharge_from VARCHAR(30) NOT NULL DEFAULT 'Web',
+    client_id VARCHAR(255) DEFAULT NULL,
+    api_user_callback_id INT DEFAULT NULL,
+    referral_bonus DECIMAL(10,3) NOT NULL DEFAULT 0.000,
+    partition_key INT NOT NULL,  -- This is the key to partition by, it should have a logical value like year, month, etc.
+    PRIMARY KEY (id, partition_key)
+)
+PARTITION BY RANGE (partition_key) (
+    PARTITION p_2020_jan_apr VALUES LESS THAN (20200401),  -- Jan-Apr 2020
+    PARTITION p_2020_may_aug VALUES LESS THAN (20200801),  -- May-Aug 2020
+    PARTITION p_2020_sep_dec VALUES LESS THAN (20210101),  -- Sep-Dec 2020
+    PARTITION p_2021_jan_apr VALUES LESS THAN (20210401),  -- Jan-Apr 2021
+    PARTITION p_2021_may_aug VALUES LESS THAN (20210801),  -- May-Aug 2021
+    PARTITION p_2021_sep_dec VALUES LESS THAN (20220101),  -- Sep-Dec 2021
+    PARTITION p_2022_jan_apr VALUES LESS THAN (20220401),  -- Jan-Apr 2022
+    PARTITION p_2022_may_aug VALUES LESS THAN (20220801),  -- May-Aug 2022
+    PARTITION p_2022_sep_dec VALUES LESS THAN (20230101),  -- Sep-Dec 2022
+    PARTITION p_2023_jan_apr VALUES LESS THAN (20230401),  -- Jan-Apr 2023
+    PARTITION p_2023_may_aug VALUES LESS THAN (20230801),  -- May-Aug 2023
+    PARTITION p_2023_sep_dec VALUES LESS THAN (20240101),  -- Sep-Dec 2023
+    PARTITION p_2024_jan_apr VALUES LESS THAN (20240401),  -- Jan-Apr 2024
+    PARTITION p_2024_may_aug VALUES LESS THAN (20240801),  -- May-Aug 2024
+    PARTITION p_2024_sep_dec VALUES LESS THAN (20250101)   -- Sep-Dec 2024
+);
+_______________________________________________________________________________________________________________________________
+
+SELECT *  FROM INFORMATION_SCHEMA.PARTITIONS  WHERE TABLE_NAME = 'recharges_partitioned';
+SHOW COLUMNS FROM recharges_partitioned;
+______________________________________________________________________________________________________________________________
+
+INSERT INTO recharges_partitioned (
+  number, operator_id, circle_id, backup_commission, is_backup,
+  amount, last_hit_on, last_hit_id, admin_commission,
+  master_distributor_commission, distributor_commission,
+  retailer_commission, user_commission, order_id, recharge_type,
+  status, request_time, user_id, user_type, recharge_from,
+  referral_bonus, partition_key
+)
+SELECT
+  number, operator_id, circle_id, backup_commission, is_backup,
+  amount, last_hit_on, last_hit_id, admin_commission,
+  master_distributor_commission, distributor_commission,
+  retailer_commission, user_commission, order_id, recharge_type,
+  status, request_time, user_id, user_type, recharge_from,
+  referral_bonus, 20200401
+FROM recharges
+WHERE FROM_UNIXTIME(request_time) >= '2020-01-01'
+  AND FROM_UNIXTIME(request_time) <  '2020-05-01';
+  ___________________________________________________________________________________________________________________________
+
+  SELECT 
+    COUNT(*) AS total_rows,
+    MIN(FROM_UNIXTIME(request_time)) AS earliest_request,
+    MAX(FROM_UNIXTIME(request_time)) AS latest_request
+FROM recharges_partitioned
+WHERE partition_key = 20200401
+  AND FROM_UNIXTIME(request_time) >= '2020-01-01'
+  AND FROM_UNIXTIME(request_time) < '2020-05-01';
