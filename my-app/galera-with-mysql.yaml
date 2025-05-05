@@ -1,0 +1,149 @@
+Bilkul Ravi, **Galera Cluster with MySQL** setup thoda tricky ho sakta hai, especially jab 3-node production setup ki baat ho — aur agar Galera latest Ubuntu version (like 24.04 Noble) ko officially support nahi karta to phir **Ubuntu 22.04 Jammy** best choice hai (jo tum use kar bhi rahe ho).
+
+Chalo step-by-step samjhaata hoon ki **Galera Cluster** ko 3 Ubuntu 22.04 servers pe MySQL ke saath kaise setup karte hain. Iss guide ke baad tum easily troubleshoot bhi kar paoge.
+
+---
+
+## ✅ **Prerequisites**
+
+* 3 Ubuntu 22.04 (Jammy) servers
+* Static Private IPs (recommended)
+* Hostname set properly on each
+* Time synced (use `ntp` or `chrony`)
+* MySQL (Percona Server ya MariaDB; Galera ke saath mostly MariaDB ya Percona use hota hai)
+
+Main yahan **MariaDB + Galera** combo ka use kar raha hoon, kyunki yeh stable aur recommended hai.
+
+---
+
+## 🔧 **Step-by-Step: Galera Cluster Setup (MariaDB on Ubuntu 22.04)**
+
+### **Step 1: Add MariaDB Repo (same on all nodes)**
+
+```bash
+sudo apt update
+sudo apt install software-properties-common curl gnupg -y
+
+# Add MariaDB 10.6 (or supported version)
+sudo curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+```
+
+---
+
+### **Step 2: Install MariaDB + Galera on all 3 nodes**
+
+```bash
+sudo apt update
+sudo apt install mariadb-server galera-4 -y
+```
+
+---
+
+### **Step 3: Configure MariaDB/Galera (all nodes)**
+
+Edit this file:
+
+```bash
+sudo nano /etc/mysql/mariadb.conf.d/60-galera.cnf
+```
+
+**Use this config as template (customize per node):**
+
+```ini
+[mysqld]
+bind-address = 0.0.0.0
+
+# Galera settings
+wsrep_on = ON
+wsrep_provider = /usr/lib/galera/libgalera_smm.so
+
+# Cluster name (same on all)
+wsrep_cluster_name = 'galera-cluster'
+
+# Cluster members (comma-separated private IPs of all 3 nodes)
+wsrep_cluster_address = gcomm://10.0.0.1,10.0.0.2,10.0.0.3
+
+# Node name (different on each)
+wsrep_node_name = node1
+wsrep_node_address = 10.0.0.1
+
+# SST method
+wsrep_sst_method = rsync
+
+# Disable binary log
+binlog_format = row
+default_storage_engine = InnoDB
+innodb_autoinc_lock_mode = 2
+```
+
+> ⚠ Replace `node1` and `10.0.0.1` accordingly on each server.
+
+---
+
+### **Step 4: Secure MySQL on all nodes**
+
+```bash
+sudo systemctl stop mysql
+sudo mysql_secure_installation
+```
+
+---
+
+### **Step 5: Start First (Primary) Node**
+
+> Ye bahut important hai: **sirf first time** ke liye, pehle node ko “bootstrap” karna padta hai:
+
+```bash
+sudo galera_new_cluster
+```
+
+Verify:
+
+```bash
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+```
+
+Output should be `1`.
+
+---
+
+### **Step 6: Start Remaining Nodes**
+
+```bash
+sudo systemctl start mysql
+```
+
+> Then verify on any node:
+
+```bash
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+```
+
+You should see `3` if all joined correctly.
+
+---
+
+## 🧪 Common Issues & Checks
+
+### 🔍 Node not joining?
+
+* Check firewall (port `3306`, `4567`, `4568`, `4444` must be open)
+* `wsrep_cluster_address` must be correct
+* Time sync (NTP must be working)
+* Check `/var/log/mysql/error.log` for exact errors
+
+---
+
+## ✅ Tips
+
+* Always **bootstrap** only one time on primary node
+* Use `galera_new_cluster` only on first node and **only when no cluster is running**
+* Restart others with normal `systemctl start mysql`
+
+---
+
+Agar tum mujhe apna config file (`60-galera.cnf`) bhej do har node ka, mai bata dunga kya galti hai. Ya agar koi exact error aa rahi hai, paste kar do.
+
+Chaho to mai ek **Ansible playbook** bhi de sakta hoon production-ready setup ke liye.
+
+Tumhare paas node IPs ya hostname hain kya? Mai ek custom config bana deta hoon.
