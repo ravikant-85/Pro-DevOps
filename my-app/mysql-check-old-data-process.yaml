@@ -108,7 +108,18 @@ SELECT
 FROM INFORMATION_SCHEMA.PARTITIONS
 WHERE TABLE_NAME = 'recharges_partitioned'
   AND TABLE_SCHEMA = 'dedicate_paybyapis';
+_____________________________________________________________________________________________________________________________
 
+SELECT COUNT(*)
+FROM recharges
+WHERE FROM_UNIXTIME(request_time) >= '2020-09-01'
+  AND FROM_UNIXTIME(request_time) < '2021-01-01';
+______________________________________________________________________________________________________________________________
+
+SELECT MIN(id) AS start_id, MAX(id) AS end_id
+FROM recharges
+WHERE FROM_UNIXTIME(request_time) >= '2020-09-01'
+  AND FROM_UNIXTIME(request_time) < '2021-01-01';
 ______________________________________________________________________________________________________________________________
 
 SELECT *  FROM INFORMATION_SCHEMA.PARTITIONS  WHERE TABLE_NAME = 'recharges_partitioned';
