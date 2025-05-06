@@ -82,3 +82,5 @@ FLUSH PRIVILEGES;
 
 wsrep_sst_method = xtrabackup-v2
 wsrep_sst_auth = sstuser:sstpassword
+wsrep_provider_options="ist.recv_addr=<joiner-node-ip>:4567"
+
