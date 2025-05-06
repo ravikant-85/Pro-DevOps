@@ -59,3 +59,13 @@ netstat -tulpen | grep -E '3306|4567|4568|4444'
 mysqld --user=mysql --wsrep-new-cluster
 
 
+
+wget https://repo.percona.com/apt/percona-release_latest.generic_all.deb
+sudo dpkg -i percona-release_latest.generic_all.deb
+percona-release setup pdps8.0
+sudo percona-release setup tools
+sudo apt update
+sudo apt install percona-xtrabackup-80
+xtrabackup --version
+mysql --version
+nano /etc/mysql/mysql.conf.d/mysqld.cnf
