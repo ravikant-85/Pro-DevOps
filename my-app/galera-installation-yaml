@@ -69,3 +69,6 @@ sudo apt install percona-xtrabackup-80
 xtrabackup --version
 mysql --version
 nano /etc/mysql/mysql.conf.d/mysqld.cnf
+
+sudo aa-disable /usr/sbin/mysqld
+
