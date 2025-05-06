@@ -1,0 +1,61 @@
+sudo tee /etc/apt/sources.list.d/galera.list <<EOF
+deb https://releases.galeracluster.com/galera-4/ubuntu jammy main
+deb https://releases.galeracluster.com/mysql-wsrep-8.0/ubuntu jammy main
+EOF
+
+
+
+wget https://releases.galeracluster.com/GPG-KEY-galeracluster.com
+sudo apt-key add GPG-KEY-galeracluster.com
+
+
+
+
+echo -e "Package: *\nPin: origin releases.galeracluster.com\nPin-Priority: 1001" | sudo tee /etc/apt/preferences.d/galera.pref
+
+sudo apt update
+
+sudo apt install galera-4 mysql-wsrep-8.0
+
+mysql --version
+
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+
+[mysqld]
+bind-address = 0.0.0.0
+
+# Galera settings
+wsrep_on = ON
+wsrep_provider = /usr/lib/galera/libgalera_smm.so
+wsrep_cluster_name = 'galera-cluster'
+wsrep_cluster_address = gcomm://<Node1_IP>,<Node2_IP>,<Node3_IP>
+wsrep_node_name = node2  # Change to node3 on Node 3
+wsrep_node_address = <Node2_IP>  # Change accordingly
+wsrep_sst_method = rsync
+
+# InnoDB settings
+binlog_format = row
+default_storage_engine = InnoDB
+innodb_autoinc_lock_mode = 2
+
+
+sudo systemctl start mysql
+
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+
+
+
+
+sudo systemctl stop mysql
+sudo rm -rf /var/lib/mysql/galera.cache
+sudo -u mysql /usr/sbin/mysqld --wsrep-new-cluster &
+
+sudo nano /var/lib/mysql/grastate.dat
+
+mysqld --wsrep-new-cluster
+
+netstat -tulpen | grep -E '3306|4567|4568|4444'
+
+mysqld --user=mysql --wsrep-new-cluster
+
+
