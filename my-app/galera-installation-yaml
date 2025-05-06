@@ -72,3 +72,13 @@ nano /etc/mysql/mysql.conf.d/mysqld.cnf
 
 sudo aa-disable /usr/sbin/mysqld
 
+
+
+
+CREATE USER 'sstuser'@'%' IDENTIFIED BY 'sstpassword';
+GRANT RELOAD, LOCK TABLES, PROCESS, REPLICATION CLIENT ON *.* TO 'sstuser'@'%';
+FLUSH PRIVILEGES;
+
+
+wsrep_sst_method = xtrabackup-v2
+wsrep_sst_auth = sstuser:sstpassword
