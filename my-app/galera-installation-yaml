@@ -70,8 +70,12 @@ xtrabackup --version
 mysql --version
 nano /etc/mysql/mysql.conf.d/mysqld.cnf
 
-
+sudo apt update
+sudo apt install apparmor-utils
 sudo aa-disable /usr/sbin/mysqld
+sudo systemctl stop apparmor
+sudo systemctl disable apparmor
+
 
 xtrabackup --prepare --target-dir=/tmp/testbackup
 sudo systemctl start mysql@bootstrap.service
