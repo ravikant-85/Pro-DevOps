@@ -1,1 +1,152 @@
+apt update
+sudo apt install mariadb-server galera-4 rsync -y
+apt install galera-4
+sudo nano /etc/mysql/mariadb.conf.d/60-galera.cnf
+sudo mysql_secure_installation
+sudo galera_new_cluster
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_status';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+cat /etc/mysql/mariadb.conf.d/60-galera.cnf
+ifconfig
+tail -f /var/log/mysql/error.log
+tail -f /var/log/mysql/
+mysql -u root -p -e "SHOW VARIABLES LIKE 'log_error';"
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+sudo galera_new_cluster
+mysql -u root -p -e "SHOW VARIABLES LIKE 'log_error';"
+systemctl stop mariadb
+sudo galera_new_cluster
+journalctl -xeu mariadb.service
+mysql -u root -p
+ps aux | grep mysql
+galera_new_cluster
+systemctl status mariadb.service -l --no-pager
+journalctl -xeu mariadb.service
+cat /var/log/mysql/error.log
+sudo nano /var/lib/mysql/grastate.dat
+galera_new_cluster
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_status';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+tail -f /var/log/mysql/error.log
+tail -f -n 50 /var/log/mysql/error.log
+nano /etc/hosts
+telnet 10.139.144.183 4567
+telnet 10.139.144.180 4567
+sudo nano /var/lib/mysql/grastate.dat
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_status';"
+nano /etc/hosts
+tail -f -n 50 /var/log/mysql/error.log
+systemctl stop mariadb
+ps aux
+ps aux | grep mysqld
+ps aux | grep mysql
+rm -f /var/lib/mysql/grastate.dat
+galera_new_cluster
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_status';"
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep%'"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+tail -f /var/log/mysql/error.log
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_status';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+sudo mysql -u root -p -e "SET GLOBAL wsrep_cluster_address='gcomm://';"
+sudo mysql -u root -p -e "STOP SLAVE;"
+sudo mysql -u root -p -e "START SLAVE;"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep%'"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_status';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_ready';"
+sudo mysql -u root -p -e "SET GLOBAL wsrep_cluster_address='gcomm://10.139.144.184,10.139.144.183,10.139.144.180';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_ready';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_status';"
+sudo systemctl stop mariadb
+galera_new_cluster
+rm /var/lib/mysql/grastate.dat
+galera_new_cluster
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_status';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_ready';"
+tail -f /var/log/mysql/y
+tail -f /var/log/mysql/error.log
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_state_uuid';"
+sudo systemctl stop mariadb
+sudo rm -f /var/lib/mysql/grastate.dat
+sudo rm -f /var/lib/mysql/gvwstate.dat
+sudo rm -f /var/lib/mysql/galera.cache
+nano /etc/mysql/mariadb.conf.d/60-galera.cnf
+galera_new_cluster
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_status';"
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+tail -n 50 /var/log/mysql/error.log
+sudo systemctl stop mariadb
+sudo rm -f /var/lib/mysql/grastate.dat
+sudo rm -f /var/lib/mysql/gvwstate.dat
+sudo rm -f /var/lib/mysql/galera.cache
+wsrep_cluster_address="gcomm://"
+nano /etc/mysql/mariadb.conf.d/60-galera.cnf
+sudo galera_new_cluster
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_status';"
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_status';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_state_uuid';"
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_state_uuid';"
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_incoming_addresses';"
+mysql -u root -p -e "INSERT INTO orders (product_id, quantity, user_id) VALUES (101, 2, 123);"
+mysql -u root -p -e "SELECT * FROM orders WHERE product_id = 101;"
+mysql -u root -p
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size';"
+mysql -u root -p
+free -h
+history
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------
+wsrep_on=ON
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+wsrep_cluster_name="my_prod_cluster"
+wsrep_cluster_address="gcomm://"
+
+# Node specific settings
+wsrep_node_address="10.139.144.184"     # Change this per node
+wsrep_node_name="node1"                # Change this per node
+
+# SST method
+wsrep_sst_method=rsync
+
+# MariaDB settings
+binlog_format=ROW
+default_storage_engine=InnoDB
+innodb_autoinc_lock_mode=2
+-----------------------------------------------------------------------------------------------------------------------------
+
+wsrep_on=ON
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+wsrep_cluster_name="my_prod_cluster"
+wsrep_cluster_address="gcomm://10.139.144.184,10.139.144.183,10.139.144.180"
+
+# Node specific settings
+wsrep_node_address="10.139.144.183"     # Change this per node
+wsrep_node_name="node2"                # Change this per node
+
+# SST method
+wsrep_sst_method=rsync
+
+# MariaDB settings
+binlog_format=ROW
+default_storage_engine=InnoDB
+innodb_autoinc_lock_mode=2
+
+
+
+
+
+
 
