@@ -75,7 +75,23 @@ sudo apt install apparmor-utils
 sudo aa-disable /usr/sbin/mysqld
 sudo systemctl stop apparmor
 sudo systemctl disable apparmor
+  sudo chmod +x /usr/bin/wsrep_sst_xtrabackup-v2
+  sudo chown mysql:mysql /usr/bin/wsrep_sst_xtrabackup-v2
 
+sudo apt install percona-xtrabackup-24
+
+sudo rm -f /var/lib/mysql/grastate.dat
+sudo rm -f /var/lib/mysql/gvwstate.dat
+sudo rm -f /var/lib/mysql/galera.cache
+
+
+
+REVOKE ALL PRIVILEGES ON *.* FROM 'sstuser'@'localhost';
+ FLUSH PRIVILEGES;
+GRANT BACKUP_ADMIN ON *.* TO 'sstuser'@'localhost';
+FLUSH PRIVILEGES;
+SHOW GRANTS FOR 'sstuser'@'localhost';
+sudo mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_state_uuid';"
 
 xtrabackup --prepare --target-dir=/tmp/testbackup
 sudo systemctl start mysql@bootstrap.service
@@ -83,6 +99,8 @@ sudo systemctl start mysql@bootstrap.service
 CREATE USER 'sstuser'@'%' IDENTIFIED BY 'sstpassword';
 GRANT RELOAD, LOCK TABLES, PROCESS, REPLICATION CLIENT ON *.* TO 'sstuser'@'%';
 FLUSH PRIVILEGES;
+
+xtrabackup --backup --target-dir=/tmp/testbackup --user=root --password=@Rkm2025
 
 
 wsrep_sst_method = xtrabackup-v2
