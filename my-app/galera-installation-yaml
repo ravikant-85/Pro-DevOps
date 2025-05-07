@@ -73,8 +73,8 @@ nano /etc/mysql/mysql.conf.d/mysqld.cnf
 
 sudo aa-disable /usr/sbin/mysqld
 
-
-
+xtrabackup --prepare --target-dir=/tmp/testbackup
+sudo systemctl start mysql@bootstrap.service
 
 CREATE USER 'sstuser'@'%' IDENTIFIED BY 'sstpassword';
 GRANT RELOAD, LOCK TABLES, PROCESS, REPLICATION CLIENT ON *.* TO 'sstuser'@'%';
