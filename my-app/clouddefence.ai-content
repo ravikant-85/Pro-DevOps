@@ -1,0 +1,102 @@
+Great! Main tumhare liye ek basic **MVP plan** bana raha hoon jisme:
+
+### ✅ Goal:
+
+Banana hai ek CloudDefense.AI jaisa platform jo **AWS, Azure, GCP, Oracle Cloud** se connect ho ke misconfigurations detect kare aur optionally auto-remediate bhi kare.
+
+---
+
+## 🔧 Tools & Stack Selection (Open Source):
+
+| Component                 | Tool                                                                                                             | Description                                    |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| **Frontend**              | React + TailwindCSS                                                                                              | Dashboard for reports                          |
+| **Backend API**           | Node.js + Express                                                                                                | Core logic to scan, store, trigger remediation |
+| **Database**              | PostgreSQL                                                                                                       | Stores findings, accounts, scan results        |
+| **Infra as Code Scanner** | [Checkov](https://github.com/bridgecrewio/checkov) / [Tfsec](https://github.com/aquasecurity/tfsec)              | Scans Terraform for misconfigs                 |
+| **Cloud Scanner**         | [Prowler](https://github.com/prowler-cloud/prowler) / [Cloudsploit](https://github.com/aquasecurity/cloudsploit) | Scans AWS config/security                      |
+| **Remediation**           | Custom Lambda / Azure Functions                                                                                  | Runs when a misconfig is found                 |
+| **CI/CD**                 | GitHub Actions                                                                                                   | Trigger scans automatically                    |
+| **Secrets Handling**      | HashiCorp Vault / AWS Secrets Manager                                                                            | For API keys, etc.                             |
+| **Containerization**      | Docker                                                                                                           | Everything containerized                       |
+| **Orchestration**         | Kubernetes / Docker Compose (dev)                                                                                | Manages services                               |
+
+---
+
+## 🧱 Codebase Architecture (MVP)
+
+```
+cloudsec-platform/
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   ├── routes/
+│   │   └── scanners/
+│   └── Dockerfile
+├── frontend/
+│   └── React Dashboard
+├── scripts/
+│   ├── run-prowler.sh
+│   └── run-checkov.sh
+├── remediation/
+│   ├── aws_remediation.py
+│   └── azure_remediation.py
+├── k8s/
+│   └── deployment.yaml
+└── README.md
+```
+
+---
+
+## 🔁 Workflows (Scan + Remediate)
+
+### 1. **Scan**
+
+* User connects AWS/GCP account via IAM Role or keys.
+* GitHub Action or cron job triggers:
+
+  * Checkov/Tfsec for Terraform
+  * Prowler for AWS
+
+### 2. **Store Results**
+
+* Output JSON parsed and stored in PostgreSQL.
+
+### 3. **Detect Misconfigs**
+
+* Backend logic checks for high-risk configs.
+
+### 4. **Remediate**
+
+* Lambda or Python script triggered (optional auto-remediate).
+* Mark remediation status in DB.
+
+---
+
+## 🧪 GitHub Open Source Tools You’ll Use
+
+| Tool          | Link                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------------ |
+| Checkov       | [https://github.com/bridgecrewio/checkov](https://github.com/bridgecrewio/checkov)         |
+| Tfsec         | [https://github.com/aquasecurity/tfsec](https://github.com/aquasecurity/tfsec)             |
+| Prowler       | [https://github.com/prowler-cloud/prowler](https://github.com/prowler-cloud/prowler)       |
+| Cloudsploit   | [https://github.com/aquasecurity/cloudsploit](https://github.com/aquasecurity/cloudsploit) |
+| Trivy (Bonus) | [https://github.com/aquasecurity/trivy](https://github.com/aquasecurity/trivy)             |
+
+---
+
+## 🎯 MVP Features (Phase 1)
+
+* [x] Connect Cloud Account (via IAM keys)
+* [x] Scan Terraform repo
+* [x] Scan live AWS account
+* [x] Show scan results on dashboard
+* [x] Store history
+* [x] Trigger remediation (basic script)
+
+---
+
+## 📦 Next Step
+
+Kya tum chahte ho mai iska **backend + frontend sample code (barebones MVP)** ready karke du? Ya tum kisi ek feature se shuru karna chahte ho jaise ki sirf **Terraform scanning module**?
