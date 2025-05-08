@@ -1,0 +1,6 @@
+docker run -ti --rm \
+  -v /root/.aws:/root/.aws:ro \
+  -v /root/prowler-output:/output \
+  -e AWS_CONFIG_FILE=/root/.aws/config \
+  -e AWS_SHARED_CREDENTIALS_FILE=/root/.aws/credentials \
+  prowlercloud/prowler:latest -M html
