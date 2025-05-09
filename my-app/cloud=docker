@@ -12,3 +12,6 @@ docker run -ti --rm \
   -e AWS_SECRET_ACCESS_KEY= \
   -e AWS_DEFAULT_REGION=us-east-2 \
   prowlercloud/prowler:latest -M html
+
+
+xdg-open prowler-output-190864224489-*.html
