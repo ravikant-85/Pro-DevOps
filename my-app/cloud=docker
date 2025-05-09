@@ -6,6 +6,13 @@ docker run -ti --rm \
   prowlercloud/prowler:latest -M html
 
 
+docker run -it --rm -v /root/prowler-output:/output \
+    -e AWS_ACCESS_KEY_ID=... \
+    -e AWS_SECRET_ACCESS_KEY=... \
+    -e AWS_SESSION_TOKEN=... \
+    ghcr.io/prowler-cloud/prowler:latest -M html,csv,json -S /output
+
+
 docker run -ti --rm \
   -v /root/prowler-output:/output \
   -e AWS_ACCESS_KEY_ID= \
