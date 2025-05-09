@@ -4,3 +4,11 @@ docker run -ti --rm \
   -e AWS_CONFIG_FILE=/root/.aws/config \
   -e AWS_SHARED_CREDENTIALS_FILE=/root/.aws/credentials \
   prowlercloud/prowler:latest -M html
+
+
+docker run -ti --rm \
+  -v /root/prowler-output:/output \
+  -e AWS_ACCESS_KEY_ID= \
+  -e AWS_SECRET_ACCESS_KEY= \
+  -e AWS_DEFAULT_REGION=us-east-2 \
+  prowlercloud/prowler:latest -M html
