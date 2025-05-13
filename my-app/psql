@@ -2,14 +2,12 @@ SELECT datname AS database_name,
        pg_size_pretty(pg_database_size(datname)) AS size
 FROM pg_database
 ORDER BY pg_database_size(datname) DESC;
- database_name  |  size
-----------------+---------
- pride-group    | 3307 MB
- truckmate_sync | 12 MB
- vector         | 9299 kB
- template1      | 7619 kB
- postgres       | 7547 kB
- template0      | 7321 kB
-(6 rows)
+-----------------------------------------------------------------------------------------------------------------------------
 
-postgres=#
+\c pride-group
+You are now connected to database "pride-group" as user "postgres".
+pride-group=# SELECT relname AS table_name,
+       pg_size_pretty(pg_total_relation_size(relid)) AS total_size
+FROM pg_catalog.pg_statio_user_tables
+ORDER BY pg_total_relation_size(relid) DESC
+LIMIT 10;
