@@ -100,3 +100,680 @@ nano /opt/postal/config/postal.yml
 postal status
 docker ps -a
 cat /opt/postal/config/postal.yml
+----------------------------------------------------------------------------------------------------------------------------
+
+Search DNS Records
+Your search yielded 50 results
+
+Type
+
+Name
+
+Content
+
+Proxy status
+
+TTL
+
+Actions
+
+
+A
+mail
+159.69.68.143
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+messagefusion.org
+5.9.165.31
+
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+messagefusion.org
+5.9.165.30
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+messagefusion.org
+5.9.165.29
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+messagefusion.org
+5.9.165.26
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+messagefusion.org
+5.9.165.28
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+messagefusion.org
+5.9.165.27
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+messagefusion.org
+5.9.165.24
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+messagefusion.org
+5.9.165.25
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+messagefusion.org
+138.201.48.248
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+mx
+138.201.48.248
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+rp
+5.9.165.30
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+rp
+5.9.165.29
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+rp
+5.9.165.28
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+rp
+5.9.165.27
+
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+rp
+5.9.165.26
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+rp
+5.9.165.25
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+rp
+5.9.165.24
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+rp
+138.201.48.248
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+spf
+5.9.165.28
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+spf
+5.9.165.30
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+spf
+5.9.165.29
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+spf
+138.201.48.248
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+spf
+5.9.165.27
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+spf
+5.9.165.26
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+spf
+5.9.165.24
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+spf
+5.9.165.25
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+track
+138.201.48.248
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+A
+vastites
+138.201.48.248
+
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+CNAME
+click.vastites
+track.messagefusion.org
+
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+CNAME
+psrp
+rp.messagefusion.org
+
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+CNAME
+psrp.tb
+rp.messagefusion.org
+
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+CNAME
+psrp.vastites
+rp.messagefusion.org
+
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+CNAME
+www
+messagefusion.org
+
+Proxied
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+MX
+mail
+routes.mail.messagefusion.org
+
+10
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+MX
+messagefusion.org
+mx.messagefusion.org
+
+10
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+MX
+rp
+mx.messagefusion.org
+
+10
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+MX
+tb
+mx.messagefusion.org
+
+10
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+MX
+vastites
+mx.messagefusion.org
+
+10
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+TXT
+_acme-challenge
+"pgv34c0LcdP8QUaWWu1z6K_JRkg9BiVhU9wAQ4KfzQU"
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+_acme-challenge.vastites
+ODwHMitO9q7onhGNMKEcE7ubL8gJGd5ESbaizsC1VOI
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+TXT
+_dmarc
+"v=DMARC1; p=none; rua=mailto:postmaster@shilpzaveri.com; ruf=mailto:postmaster@shilpzaveri.com; sp=none; fo=1; pct=100; adkim=s; aspf=s"
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+TXT
+_dmarc.vastites
+"v=DMARC1; p=none; pct=100; rua=mailto:postmaster@shilpzaveri.com; ruf=mailto:postmaster@shilpzaveri.com; aspf=r; sp=none; fo=1"
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+mailly-jrrxys._domainkey.mail
+v=DKIM1; t=s; h=sha256; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDdpmbSG4eKOuEZW28YrmX8ZKl21bW9FvGLy1ULBRE4xL/v5Kw7eCotTQeWdsqt8u/QQo9GBO24xs+9u92x8ttzLJTB4LK4XTuhvfNoZsBRaiX+iPji8W71EHKI0BmIjolr106iZH5urTcJsD/snexDw0gF3aSGnStrGCIagzFhoQIDAQAB;
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+messagefusion._domainkey
+v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuFH2fm727IbXzRtvEVbl9bSp/JStYW52gt7H5FrVgNaCCPceXZ18ZawQD9RRGEN5rbUgxVZ75Vd8+cZ2HqUZxIhBu2v7rUtgQqvka52S0uDIiWpofEbZg/gHV4Uf23fVsNwhx1ntBUnosRExwsJceDKXFw8YKUOHyIK9xDVK0Lyygk0mr5AQFRQcTjdIZzo7pT/Lsh11ivPy1E4EVvHCUmN09eQnxKoLlDtXpjcKqPcZawwZTlIubdfAeCNhCcJKkbXYbO0KZmUNSg0D68FghPhkKvf1Gq/WkAnpeDSe12JZZi7zMgU0M4GQCOj2V/6wE6ENDTnEOSPdRxt1Dlk6DQIDAQAB
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+messagefusion._domainkey.rp
+v=DKIM1; t=s; h=sha256; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDdRKCp4tGA1NW1Gw7Lj96TlJcSAMmkUB/SNsAnRop2iYnqSn9au1xPosUjGzweAOECAfxOaQuZJUvKN89qG6s9CL5kp0p2BEZAUAe1nd6I0zUr1L9EvujeTwUSDbhs3y2HAn91cMKZzP2E4Fv4FY20j3p1t0YW3yzH7luRpnIASwIDAQAB;
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+messagefusion._domainkey.rp
+v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuFH2fm727IbXzRtvEVbl9bSp/JStYW52gt7H5FrVgNaCCPceXZ18ZawQD9RRGEN5rbUgxVZ75Vd8+cZ2HqUZxIhBu2v7rUtgQqvka52S0uDIiWpofEbZg/gHV4Uf23fVsNwhx1ntBUnosRExwsJceDKXFw8YKUOHyIK9xDVK0Lyygk0mr5AQFRQcTjdIZzo7pT/Lsh11ivPy1E4EVvHCUmN09eQnxKoLlDtXpjcKqPcZawwZTlIubdfAeCNhCcJKkbXYbO0KZmUNSg0D68FghPhkKvf1Gq/WkAnpeDSe12JZZi7zMgU0M4GQCOj2V/6wE6ENDTnEOSPdRxt1Dlk6DQIDAQAB
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+messagefusion-hsqyuz._domainkey.vastites
+v=DKIM1; t=s; h=sha256; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDQ7zIsVnLp4whhr8deEIKPjDPSnMtHVRaQsvsjGSzaCWhGQPFg3QhpkdpesAgz/AgXI+AVHWsIyMI80Ss7ne/bodvNv/Kuc/ORnc9+/pfIuqIwK7mbsGHQNAmsH/8kDqC8zcPg6uuI/hKpF7FojZ3pHTh+CP4ZV/xt0yBvewkmRQIDAQAB;
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+messagefusion.org
+v=spf1 a mx a:spf.messagefusion.org include:psrp.messagefusion.org include:spf.messagefusion.org ~all
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+messagefusion.org
+yahoo-verification-key=Gj/nUUkC1wV2SpBJur8PCZUaJcYPHRDep28Zr3IdZgc=
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+1 to 50 of 62 records added
+---------------------------------
+Search DNS Records
+Your search yielded 12 results
+
+Type
+
+Name
+
+Content
+
+Proxy status
+
+TTL
+
+Actions
+
+
+
+
+TXT
+messagefusion.org
+google-site-verification=rEZSSarh6GC7D3oeB4vsx82v_Tty1u8U4GiRo5cWW3I
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+messagefusion-p6w2ba._domainkey
+v=DKIM1; t=s; h=sha256; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDx/vrzV+MtR5Whl0j1oO7jWlorHu9ZCzFudRTlegLeZRzTCY+54tdpSDU4iQMgYEubfIsHsfNASH1ap4tSo0S8n2BjThRE7sPFaMRY/JFC0MPq//Tyral5F2noJnLTmR2+qZ+jT2tlGfdTnvi5eGHYTjZ6fwiX+5/R8LbjtKngGwIDAQAB;
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+messagefusion-tl6gcd._domainkey
+v=DKIM1; t=s; h=sha256; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDEpyrHx4VMmOgQ7Yih5x4cIUxCI7c/XK+uTe3NYujc0HEfDeKy1MPNQWOWyv4PSv4l8+ZibFS7xGiZWobk7UfnKFruGOOLPq2IE+O3FAq0RcfbHegfDFVyAryPQedW8zTBZy6NBbgzgXFckIYWqZw9D8RKzfc3PvOBsNyT7GYu+wIDAQAB;
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+messagefusion-tyz7vb._domainkey.tb
+v=DKIM1; t=s; h=sha256; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDbB5S/EcHFb5hIU8yfuDGWs0Lxo2erAqzqID94SJ7mM1Nhxj3Uil85oSxh2OhnuZQ+osxBP9YcMt1VXCzmMpkuRN98tXl13F8g7lXT5vCGuzTN7Dn9tCApURq4/4w4fNwuJ8127OHqHjZ+mHVFKKjG++iwxEV4kNXUa/HAhOOqaQIDAQAB;
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+messagefusion-vmljud._domainkey.vastites
+v=DKIM1; t=s; h=sha256; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDMBUUHRSLuW5n/0/EF38+UV8PsKAhCgbetw5CVERe757yXvr0dZThXgUN1er/TR+dOvsCX9eFLrrXEcmKUt5m/xOw/nyDXPrhbD/QL8xmjhcXq1Ug2ACIeauaHtICAinBQjly+Kduh6vT6jKYC/w/oOSfH7NBVPjJEOSj+KXjGswIDAQAB;
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+TXT
+postal-ucfgcu._domainkey.vastites
+"v=DKIM1; t=s; h=sha256; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSEZd463FiBerAr5aU8YL6I2EkgAKKlRrjhIlc0+dk+hdLIEx4+bzedwgHqwaa907otRANMiinCSutxb/dl/6Y5yiT+2E7Yeb32A02GvQoPfmW7QYVZzNeIelZX4g/EMy8hXIhiN0cGdiPehpn2PBjmqMo/dXxjaKvHRDMInJrSQIDAQAB;"
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+rp
+v=spf1 a mx ip4:5.9.165.24/29 ip4:136.243.219.56/29 include:spf.messagefusion.org ~all
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+spf
+v=spf1 a mx ip4:5.9.165.24/29 ip4:136.243.219.56/29 ~all
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+tb
+google-site-verification=ElMBl7HbwNRiOJuzbNbZ8YHnH_1-pkqRXA-ZivuLKT4
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+tb
+v=spf1 a mx include:spf.messagefusion.org ~all
+DNS only
+
+Auto
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+vastites
+v=spf1 a mx include:spf.messagefusion.org ~all
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+
+
+TXT
+vastites
+google-site-verification=dJ9NqIVX4dVfc6q7uGTVkv_pNEACdEhp0LpPu0xIjrA
+DNS only
+
+1 min
+EditWhen toggled open, an additional table row will be added below this row to enable editing DNS records.
+
+
+51 to 62 of 62 records added
