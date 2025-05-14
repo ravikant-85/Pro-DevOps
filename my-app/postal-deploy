@@ -1,0 +1,102 @@
+ip a
+sudo apt update && sudo apt upgrade -y
+for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+# Add the repository to Apt sources:
+echo   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" |   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+docker ps
+docker compose -v
+docker compose --version
+sudo apt-get install docker-compose-plugin
+docker compose version
+apt install git curl jq
+git clone https://github.com/postalserver/install /opt/postal/install
+sudo ln -s /opt/postal/install/bin/postal /usr/bin/postal
+docker run -d    --name postal-mariadb    -p 127.0.0.1:3306:3306    --restart always    -e MARIADB_DATABASE=postal    -e MARIADB_ROOT_PASSWORD=G00gle@143    mariadb
+docker ps
+postal bootstrap messagefusion.org
+vim /opt/postal/config/postal.yml
+postal initialize
+postal make-user
+postal start
+docker ps
+postal status
+ip a
+docker run -d    --name postal-caddy    --restart always    --network host    -v /opt/postal/config/Caddyfile:/etc/caddy/Caddyfile    -v /opt/postal/caddy-data:/data    caddy
+docker ps
+docker ps -a
+docker ps
+netstat -tulpn
+docker ps
+docker logs -f a4560c6b5d2e
+ll
+dockef ps
+docker ps
+ll
+docker ps
+cat /opt/postal/config/postal.yml
+vim /opt/postal/config/postal.yml
+postal restart
+postal logs
+postal logs -f
+echo "YXNkZnp4Y3ZAbWVzc2FnZWZ1c2lvbi5vcmc=" | base64 -d
+ip a
+postal console
+postal restart
+ip a
+host 138.201.48.248
+host 5.9.165.25
+host 5.9.165.26
+host 5.9.165.27
+host 5.9.165.28
+postal restart
+postal console
+postal restart
+postal make-user
+ip a
+postal logs
+xterm-256colorxterm-256colordf -h
+df -h
+ipa
+ip a
+postal logs
+postal logs -f
+ll
+history
+postal logs -f
+iptables -A INPUT -s 80.94.95.228 -j DROP
+iptables -A INPUT -s 77.90.185.6 -j DROP
+postal logs -f
+iptables -A INPUT -s 185.255.212.178 -j DROP
+postal logs -f
+ls
+ifconfig
+ll /opt/postal/app/public
+ll /opt/postal/
+ll /opt/postal/config/
+pip install certbot
+apt install python3-pip
+pip install certbot
+certbot certonly --standalone -d messagefusion.org
+ll
+ll /opt/postal/config/
+openssl req -x509 -newkey rsa:4096 -keyout /opt/postal/config/smtp.key -out /opt/postal/config/smtp.cert -sha256 -days 365 -nodes
+ll /opt/postal/config/
+vim /opt/postal/config/postal.yml
+cd /opt/postal/install
+ll
+git pull origin
+ls
+docker ps -a
+nano /opt/postal/config/postal.yml
+postal status
+docker ps -a
+cat /opt/postal/config/postal.yml
