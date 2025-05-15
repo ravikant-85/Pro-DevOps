@@ -1,0 +1,24 @@
+#!/bin/bash
+
+echo "------ $(date) ------"
+echo "Killing all MariaDB/MySQL threads except current session..."
+
+# Get all thread IDs except current connection
+THREAD_IDS=$(mariadb -Nse "SELECT id FROM information_schema.processlist WHERE id != CONNECTION_ID();")
+
+if [[ -z "$THREAD_IDS" ]]; then
+  echo "No threads found to kill."
+  exit 0
+fi
+
+# Kill all threads one by one
+for ID in $THREAD_IDS; do
+  echo "Killing thread ID: $ID"
+  mariadb -e "KILL $ID;"
+done
+
+echo "✔️ Done killing all threads."
+---------------------------------------------------------------------------------------------------------------
+
+mariadb -Nse "SELECT CONCAT('KILL ', id, ';') FROM information_schema.processlist WHERE id != CONNECTION_ID() AND Command != 'Sleep';" | mariadb
+mysql -u your_user -p -N -e "SELECT CONCAT('KILL ', id, ';') FROM information_schema.processlist WHERE id != CONNECTION_ID()" | mysql -u your_user -p
