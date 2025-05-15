@@ -12,3 +12,23 @@ export default function () {
 }
 ---------------------------------------------------------
 k6 run loadtest.js
+---------------------------------------------------------
+
+import http from 'k6/http';
+
+export let options = {
+  scenarios: {
+    constant_request_rate: {
+      executor: 'constant-arrival-rate',
+      rate: 200, // 200 iterations per second
+      timeUnit: '1s',
+      duration: '30s', // test duration
+      preAllocatedVUs: 50, // minimum virtual users to allocate
+      maxVUs: 200, // maximum VUs if needed
+    },
+  },
+};
+
+export default function () {
+  http.get('https://ravikant.com'); // Replace with your domain
+}
