@@ -10,3 +10,5 @@ export default function () {
   http.get('https://ravikant.com'); // Target domain
   sleep(1);
 }
+---------------------------------------------------------
+k6 run loadtest.js
