@@ -1,0 +1,122 @@
+
+All DL Spot Instance Requests
+0
+0
+0
+Account level
+All F Spot Instance Requests
+0
+0
+0
+Account level
+All G and VT Spot Instance Requests
+0
+0
+0
+Account level
+All Inf Spot Instance Requests
+0
+0
+0
+Account level
+All P4, P3 and P2 Spot Instance Requests
+0
+0
+0
+Account level
+All P5 Spot Instance Requests
+0
+0
+0
+Account level
+All Standard (A, C, D, H, I, M, R, T, Z) Spot Instance Requests
+32
+5
+0
+Account level
+All Trn Spot Instance Requests
+0
+0
+0
+Account level
+All X Spot Instance Requests
+0
+0
+0
+Account level
+AMI sharing
+1,000
+1,000
+Not available
+Account level
+AMIs
+50,000
+50,000
+Not available
+Account level
+Attachments per transit gateway
+5,000
+5,000
+Not available
+Account level
+Attachments per VPC
+5
+5
+Not available
+Not adjustable
+Authorization rules per Client VPN endpoint
+200
+200
+Not available
+Account level
+Client VPN endpoints per Region
+5
+5
+Not available
+Account level
+Concurrent client connections per Client VPN endpoint
+126,000
+20,000
+Not available
+Account level
+Concurrent operations per Client VPN endpoint
+Not available
+10
+Not available
+Not adjustable
+Concurrent P4d Capacity Blocks per account
+0
+0
+Not available
+Account level
+Concurrent P4d Capacity Blocks per organization
+0
+0
+Not available
+Account level
+Concurrent P5 Capacity Blocks per account
+0
+0
+Not available
+Account level
+Concurrent P5 Capacity Blocks per organization
+0
+0
+Not available
+Account level
+Concurrent P5e Capacity Blocks per account
+0
+0
+Not available
+Account level
+Concurrent P5e Capacity Blocks per organization
+0
+0
+Not available
+Account level
+Concurrent P5en Capacity Blocks per account
+0
+0
+Not available
+Account level
+Concurrent P5en Capacity Blocks per organization
