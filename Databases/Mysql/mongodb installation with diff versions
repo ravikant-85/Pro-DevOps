@@ -1,0 +1,71 @@
+cd /tmp
+wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu2004-4.4.25.tgz
+tar -xvzf mongodb-linux-x86_64-ubuntu2004-4.4.25.tgz
+sudo mv mongodb-linux-x86_64-ubuntu2004-4.4.25 /usr/local/mongodb-4.4
+--------------------------------------------------------------------------------------
+
+cd /tmp
+wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu2004-5.0.25.tgz
+tar -xvzf mongodb-linux-x86_64-ubuntu2004-5.0.25.tgz
+sudo mv mongodb-linux-x86_64-ubuntu2004-5.0.25 /usr/local/mongodb-5.0
+
+--------------------------------------------------------------------------------------
+
+cd /tmp
+wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu2004-6.0.13.tgz
+tar -xvzf mongodb-linux-x86_64-ubuntu2004-6.0.13.tgz
+sudo mv mongodb-linux-x86_64-ubuntu2004-6.0.13 /usr/local/mongodb-6.0
+-------------------------------------------------------------------------------------
+
+sudo mkdir -p /data/mongo44 /data/mongo50 /data/mongo60
+sudo chown -R $USER:$USER /data
+-------------------------------------------------------------------------------------
+
+systemLog:
+  destination: file
+  path: /data/mongo44/mongod.log
+  logAppend: true
+storage:
+  dbPath: /data/mongo44
+net:
+  port: 27017
+  bindIp: 127.0.0.1
+-------------------------------------------------------------------------------------
+
+/usr/local/mongodb-4.4/bin/mongod --config /etc/mongod44.conf --fork
+/usr/local/mongodb-5.0/bin/mongod --config /etc/mongod50.conf --fork
+/usr/local/mongodb-6.0/bin/mongod --config /etc/mongod60.conf --fork
+
+-------------------------------------------------------------------------------------
+/usr/local/mongodb-4.4/bin/mongo --port 27017
+/usr/local/mongodb-5.0/bin/mongo --port 27018
+/usr/local/mongodb-6.0/bin/mongo --port 27019
+
+-------------------------------------------------------------------------------------
+
+echo "alias mongo44='/usr/local/mongodb-4.4/bin/mongo --port 27017'" >> ~/.bashrc
+echo "alias mongo50='/usr/local/mongodb-5.0/bin/mongo --port 27018'" >> ~/.bashrc
+echo "alias mongo60='/usr/local/mongodb-6.0/bin/mongo --port 27019'" >> ~/.bashrc
+source ~/.bashrc
+------------------------------------------------------------------------------------
+kill `pgrep -f "mongod.*27017"`  # for MongoDB 4.4
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+sudo apt update
+sudo apt install -y mongodb-org
+sudo systemctl start mongod
+sudo systemctl enable mongod
+mongosh
+--------------------------------------------------------------------------------------
+sudo apt install -y mongodb-org=6.0.13 mongodb-org-server=6.0.13 mongodb-org-shell=6.0.13 mongodb-org-mongos=6.0.13 mongodb-org-tools=6.0.13
+mongod --version
+--------------------------------------------------------------------------------------
+
+sudo systemctl stop mongod
+sudo apt purge mongodb-org*
+sudo rm -r /var/log/mongodb /var/lib/mongodb
+-----------------------------------------------------------------------------------------------------------------------------------------------------
