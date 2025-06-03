@@ -1,0 +1,61 @@
+db.createRole({ role: "readWriteNoDrop", privileges: [{ resource: { db: "ravikant", collection: "" }, actions: ["find", "insert", "update", "remove"] }], roles: []})
+
+
+
+
+db.createUser({ user: "developer", pwd: "Password", roles: [{ role: "readWriteNoDrop", db: "ravikant" }]})
+
+
+
+db.createRole({ role: "developerRole", privileges: [{ resource: { db: "ravikant", collection: "" }, actions: ["find", "insert", "update", "createCollection", "createIndex", "collStats", "listIndexes", "dbHash", "validate"] }], roles: []})
+
+
+
+db.updateUser("developer", { roles: [{ role: "developerRole", db: "ravikant" }]});
+
+
+
+db.grantRolesToUser("developer", [{ role: "read", db: "ravikant" }]);
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+
+
+const ops = db.currentOp().inprog;
+const uniqueClients = new Set(ops.map(op => op.client));
+print(`Unique Connections Count: ${uniqueClients.size}`);
+
+
+
+
+db.createRole({
+  role: "readWriteNoDrop",
+  privileges: [
+    {
+      resource: { db: "Jantri_mantri", collection: "" },
+      actions: ["find", "insert", "update", "remove"]
+    }
+  ],
+  roles: []
+})
+
+
+db.grantRolesToUser("staging", [{ role: "read", db: "Jantri_mantri" }]);
+
+
+db.createUser({
+  user: "staging",
+  pwd: "staging@123",
+  roles: [
+    { role: "readWriteNoDrop", db: "Jantri_mantri" }
+  ]
+})
+
+
+
+
+
+
+
+db.updateUser("staging", { roles: [{ role: "readWriteNoDrop", db: "Jantri_mantri" }]});
