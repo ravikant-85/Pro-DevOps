@@ -1,0 +1,133 @@
+ssh-keygen -t rsa -b 4096 -C "ravikant.mobzway@gmail.com"
+Phir agent start karo:
+
+bash
+Copy
+Edit
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+Phir public key check karo:
+
+bash
+Copy
+Edit
+cat ~/.ssh/id_rsa.pub
+
+
+=================================================================================================================================================================================================
+
+
+Bitbucket me SSH key add karna GitHub jaise hi hai. Niche maine **step-by-step** process diya hai jo aap easily follow kar sakte ho:
+
+---
+
+### ✅ Step 1: Public key ko copy karo
+
+Agar aapne key root user me banayi hai, toh run this:
+
+```bash
+cat ~/.ssh/id_rsa.pub
+```
+
+Ya agar aap ubuntu user ho:
+
+```bash
+cat /home/ubuntu/.ssh/id_rsa.pub
+```
+
+Jo output aayega woh kuch is tarah ka dikhega:
+
+```
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC...your_email@example.com
+```
+
+Isko **poora copy** karo (no line break).
+
+---
+
+### ✅ Step 2: Bitbucket me SSH key add karo
+
+1. **Login karo** Bitbucket pe – [https://bitbucket.org](https://bitbucket.org)
+2. Top right me **profile icon** pe click karo → **Personal settings**
+3. Sidebar me jao → **SSH keys** section
+4. Click on **"Add key"**
+5. **Label** me kuch bhi naam de do (jaise `aws-server-ssh`)
+6. **Key** me apni copied SSH public key paste karo
+7. **Add key** pe click karo
+
+---
+
+### ✅ Step 3: Test karo SSH connection
+
+Root ya jis user se kaam kar rahe ho usme ye command run karo:
+
+```bash
+ssh -T git@bitbucket.org
+```
+
+Agar first time hai, toh confirmation aayega:
+
+```
+The authenticity of host 'bitbucket.org' can't be established...
+Are you sure you want to continue connecting (yes/no)?
+```
+
+Type `yes` aur enter dabao.
+
+Success message:
+
+```
+logged in as your_username.
+You can use git or hg to connect to Bitbucket. Shell access is disabled.
+```
+
+---
+
+### ✅ Step 4: Clone repo via SSH
+
+SSH URL use karo (https se nahi):
+
+1. Bitbucket repo page pe jao
+2. "Clone" button dabao
+3. SSH tab select karo
+4. URL kuch aisa hoga:
+
+```
+git@bitbucket.org:your-username/your-repo.git
+```
+
+5. Clone command:
+
+```bash
+git clone git@bitbucket.org:your-username/your-repo.git
+```
+
+---
+
+### ✅ Bonus: Agar multiple keys use karni hain (GitHub aur Bitbucket dono)
+
+Aap `.ssh/config` file me host-wise key specify kar sakte ho:
+
+```bash
+nano ~/.ssh/config
+```
+
+Add this:
+
+```
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_rsa_github
+
+Host bitbucket.org
+  HostName bitbucket.org
+  User git
+  IdentityFile ~/.ssh/id_rsa_bitbucket
+```
+
+> Isme alag-alag key files use karo agar chahte ho GitHub aur Bitbucket ke liye alag identities.
+
+---
+
+Aap ready ho cloning ke liye. Agar koi error aaye to paste karo, main help karta hoon.
