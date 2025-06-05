@@ -1,0 +1,52 @@
+image: node:18
+
+pipelines:
+  branches:
+    main:
+      - step:
+          name: Deploy to EC2
+          deployment: production
+          script:
+          #- mkdir -p ~/.ssh
+          #- printf '%s\n' "$SSH_KEY" > ~/.ssh/id_rsa
+          #- chmod 600 ~/.ssh/
+          - ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
+          - scp deploy.sh $EC2_USER@$EC2_HOST:/home/ubuntu/deploy.sh
+          - ssh $EC2_USER@$EC2_HOST 'bash ~/deploy.sh'
+
+
+=================================================================================================================================================================================
+
+#!/bin/bash
+
+sudo rm -rf /home/ubuntu/starbucks
+
+APP_DIR="/home/ubuntu/starbucks"
+REPO_URL="git@bitbucket.org:ravikant12/starbucks.git"
+
+# Ensure Bitbucket is in known_hosts (avoids host key verification errors)
+#echo "Adding bitbucket.org to known_hosts..."
+#ssh-keyscan -t rsa bitbucket.org >> ~/.ssh/known_hosts 2>/dev/null
+
+# If the folder doesn't exist or is not a git repo, clone it
+if [ ! -d "$APP_DIR/.git" ]; then
+    echo "Cloning repo for the first time..."
+    git clone $REPO_URL $APP_DIR
+fi
+
+cd $APP_DIR
+
+# Pull latest changes
+echo "Pulling latest code..."
+git pull origin main
+
+# Install dependencies
+echo "Installing dependencies..."
+npm install
+
+# delete pm2 processes
+pm2 delete starbucks || true
+
+# Restart the service
+echo "Restarting app with PM2..."
+pm2 start npm --name starbucks -- start || pm2 restart starbucks
