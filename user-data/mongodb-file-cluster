@@ -1,0 +1,180 @@
+storage:
+  dbPath: /var/lib/mongodb
+  engine: wiredTiger
+systemLog:
+  destination: file
+  path: /var/log/mongodb/mongod.log
+  logAppend: true
+net:
+  port: 27017
+  bindIp: 0.0.0.0
+  maxIncomingConnections: 50000
+  compression:
+    compressors: snappy,zstd
+processManagement:
+  fork: true
+security:
+  authorization: enabled
+  keyFile: /etc/mongodb-keyfile
+replication:
+  replSetName: "rs0"
+  oplogSizeMB: 10240
+operationProfiling:
+  slowOpThresholdMs: 50
+  mode: slowOp
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+how to generate key for mongodb cluster
+openssl rand -base64 756 > /etc/mongodb-keyfile
+chmod 400 /etc/mongodb-keyfile
+chown mongodb:mongodb /etc/mongodb-keyfile
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    1  vim ~/.ssh/authorized_keys
+    2  htop
+    3  apt update ; apt upgrade -qy
+    4  reboot
+    5  apt search mongodb-org
+    6  apt search mongodb
+    7  sudo apt-get install gnupg curl
+    8  curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc |    sudo gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg    --dearmor
+    9  echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
+   10  sudo apt-get update
+   11  sudo apt-get install -y mongodb-org
+   12  pwgen
+   13  apt install pwgen
+   14  pwgen 23 1
+   15  pwgen 30 1
+   16  pwgen 30 2
+   17  pwgen 30 1
+   18  mongo
+   19  mongosh
+   20  service mongod status
+   21  service mongod start
+   22  systemctl enable mongod
+   23  mongosh
+   24  mongo -u admin -p eenaiL5ooW3Eich2yeerai0omee6to --authenticationDatabase admin
+   25  mongosh -u admin -p eenaiL5ooW3Eich2yeerai0omee6to --authenticationDatabase admin
+  217  watch -n 1 'ss -ant | grep -E ":27017" | wc -l'
+  218  htop
+  219  watch -n 1 'ss -ant | grep -E ":27017" | wc -l'
+  220  ll /backup/
+  221  ll /backup/logs/
+  222  tail -f  /backup/logs/backup_20251109_140001.log
+  223  vim /backup/logs/backup_20251109_140001.log
+  224  vim /backup/logs/cron.log
+  225  watch -n 1 'ss -ant | grep -E ":27017" | wc -l'
+  226  htop
+  227  watch -n 1 'ss -ant | grep -E ":27017" | wc -l'
+  228  history | grep ufw
+  229  ufw alow from 3.110.26.11
+  230  ufw allow from 3.110.26.11
+  231  watch -n 1 'ss -ant | grep -E ":27017" | wc -l'
+  232  ufw allow from 178.63.88.34
+  233  ufw allow from 34.131.32.237
+  234  crontab  - l
+  235  crontab  -l
+  236  ufw allow from 148.113.47.103
+  237  htop
+  238  watch -n 1 'ss -ant | grep -E ":27017" | wc -l'
+  239  ll /var/log/mongodb/
+  240  ll /var/log/mongodb/mongod.log
+  241  ls -lash /var/log/mongodb/mongod.log
+  242  tail -f /var/log/mongodb/mongod.log
+  243  cat /var/log/mongodb/mongod.log | grep "148.113.47.103"
+  244  tail -f /var/log/mongodb/mongod.log
+  245  crontab  -l
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+cat /etc/mongod.conf
+# mongod.conf - Optimized for 100,000 QPS (1 Lakh queries per second)
+# High-performance configuration for MongoDB 8.0+
+
+# Where and how to store data.
+storage:
+  dbPath: /var/lib/mongodb
+  engine: wiredTiger
+  wiredTiger:
+    engineConfig:
+      # Cache size: 40% of 30GB RAM = 12GB (leaves room for OS and other processes)
+      cacheSizeGB: 12
+      # Directory for temporary files
+      directoryForIndexes: false
+      # Journal compression
+      journalCompressor: snappy
+    collectionConfig:
+      # Block compression for collections - snappy is fast
+      blockCompressor: snappy
+    indexConfig:
+      # Prefix compression for indexes
+      prefixCompression: true
+  # Note: Journal is always enabled in WiredTiger engine
+
+# where to write logging data.
+systemLog:
+  destination: file
+  logAppend: true
+  path: /var/log/mongodb/mongod.log
+  verbosity: 0
+  # Reduce log verbosity for performance
+  component:
+    accessControl:
+      verbosity: 0
+    command:
+      verbosity: 0
+
+# network interfaces
+net:
+  port: 27017
+  bindIp: 0.0.0.0
+  # Maximum connections: 50,000 for high throughput (100k QPS with connection pooling)
+  maxIncomingConnections: 50000
+  # Compression for network traffic
+  compression:
+    compressors: snappy,zstd
+
+# how the process runs
+processManagement:
+  timeZoneInfo: /usr/share/zoneinfo
+  fork: true
+  pidFilePath: /var/run/mongodb/mongod.pid
+
+# Security
+security:
+  authorization: enabled
+  keyFile: /etc/mongodb-keyfile
+
+# Replication settings
+replication:
+  replSetName: "rs0"
+  # Oplog size: 10GB for high write throughput (allows longer replication lag tolerance)
+  oplogSizeMB: 10240
+  # Enable read concern majority for consistency
+  enableMajorityReadConcern: true
+
+# Operation profiling for performance monitoring
+operationProfiling:
+  slowOpThresholdMs: 50
+  mode: slowOp
+  # Only profile slow operations to reduce overhead
+
+# Set parameter optimizations
+setParameter:
+  # Enable flow control for replication
+  enableFlowControl: true
+  # Flow control target lag seconds
+  flowControlTargetLagSeconds: 10
+  # Flow control threshold lag percentage
+  flowControlThresholdLagPercentage: 0.5
+  # Increase transaction lock timeout
+  transactionLifetimeLimitSeconds: 60
+  # Increase storage engine concurrent read transactions
+  storageEngineConcurrentReadTransactions: 128
+  storageEngineConcurrentWriteTransactions: 128
+root@mongodb-cluster2-1:/home/ubuntu# ll /etc/mongodb-keyfile
+-r-------- 1 mongodb mongodb 1025 Nov  6 13:19 /etc/mongodb-keyfile
+root@mongodb-cluster2-1:/home/ubuntu#
