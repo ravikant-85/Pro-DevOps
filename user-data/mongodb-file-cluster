@@ -1,3 +1,5 @@
+mongostat --username admin --password sho3engutoh6paithieTaiw --authenticationDatabase admin
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 storage:
   dbPath: /var/lib/mongodb
   engine: wiredTiger
