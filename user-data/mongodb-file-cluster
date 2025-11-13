@@ -1,3 +1,4 @@
+mongotop -u admin -p sho3engutoh6paithieTaiw --authenticationDatabase admin
 mongostat --username admin --password sho3engutoh6paithieTaiw --authenticationDatabase admin
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 storage:
