@@ -1,3 +1,5 @@
+watch -n 1 'ss -ant | grep -E ":27017" | wc -l'
+mongodb://admin:*@IP:27017,IP:27017,IP:27017,IP:27017/testrankingDB?replicaSet=rs0&authSource=admin&readPreference=secondary&maxPoolSize=100&minPoolSize=10&retryWrites=true&w=majority
 mongotop -u admin -p sho3engutoh6paithieTaiw --authenticationDatabase admin
 mongostat --username admin --password sho3engutoh6paithieTaiw --authenticationDatabase admin
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
